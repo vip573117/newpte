@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>深大课程管理——个人资料</title>
+  <link rel="stylesheet" href="https://cdn.staticfile.org/jquery-weui/1.2.1/css/jquery-weui.min.css" />
+  <link rel="stylesheet" href="/addons/maixun_pte/template/mobile/css/mobilestyle.css" />
+  <link rel="stylesheet" href="/addons/maixun_pte/template/mobile/js/layer/need/layer.css">
+  {php echo register_jssdk();}
+</head>
+<style>
+    a {
+      text-decoration: none;
+      color: rgb(131, 130, 130);
+    }
+  </style>
+<body>
+  <div class="container">
+    <!-- 内容 -->
+    <div class="contant col">
+      <form action="">
+        <div class="area">
+          <div class="row">
+            <label for="name">姓名</label>
+            <div class="wrap">
+              <input id="name" name="name" type="text" placeholder="请输入姓名" value="{$student_data['name']}" />
+            </div>
+          </div>
+          <div class="row">
+            <label for="id">身份证号</label>
+            <div class="wrap">
+              <input id="id" type="text" name="s_id" placeholder="请输入身份证号" value="{$student_data['s_id']}" />
+            </div>
+          </div>
+        </div>
+        <div class="area">
+          <div class="row">
+            <label for="study">就读高中</label>
+            <div class="wrap">
+              <input id="study" type="text" name="senior_school" aceholder="请输入就读高中"
+                value="{$student_data['senior_school']}" />
+            </div>
+          </div>
+          <div class="row">
+            <label for="email">邮箱</label>
+            <div class="wrap">
+              <input id="email" type="text" name="email" placeholder="请输入邮箱" value="{$student_data['email']}" />
+            </div>
+          </div>
+          <div class="row">
+            <label for="college">意向大学</label>
+            <div class="wrap">
+              <input id="college" name="purpose_school" type="text" placeholder="请输入意向大学"
+                value="{$student_data['purpose_school']}" />
+            </div>
+          </div>
+          <div class="row">
+            <label for="pro">意向专业</label>
+            <div class="wrap">
+              <input id="pro" name="purpose_major" type="text" placeholder="请输入意向专业"
+                value="{$student_data['purpose_major']}" />
+            </div>
+          </div>
+        </div>
+        <div class="area">
+          <div class="row justify">
+            <div class="wrap1">
+              <span>身份证</span>
+              <div class="floor col" data-type="sid_img_z" onclick="choice($(this))">
+                <input name="sid_img_z" type="hidden" value="{$student_data['sid_img_z']}" />
+                {if $student_data['sid_img_z']}
+                <img class="floor col" id="sid_img_z" src="{$student_data['sid_img_z']}" alt="" />
+                {else}
+                <img class="add sid_img_z" src="/addons/maixun_pte/template/mobile/img/add.png" alt="" />
+                <div class="sid_img_z">上传身份证扫描件正面</div>
+                {/if}
+              </div>
+            </div>
+            <div class="wrap1">
+              <span>&nbsp;</span>
+
+              <div class="floor col" data-type="sid_img_b" onclick="choice($(this))">
+                <input name="sid_img_b" type="hidden" value="{$student_data['sid_img_b']}" />
+                {if $student_data['sid_img_z']}
+                <img class="floor col" id="sid_img_b" src="{$student_data['sid_img_b']}" alt="" />
+                {else}
+                <img class="add sid_img_b" src="/addons/maixun_pte/template/mobile/img/add.png" alt="" />
+                <div class="sid_img_b">上传身份证扫描件背面</div>
+                {/if}
+              </div>
+
+            </div>
+          </div>
+          <div class="row justify">
+            <div class="wrap1">
+              <span>护照</span>
+              <div class="floor col" data-type="passport" onclick="choice($(this))">
+                <input name="passport" type="hidden" value="{$student_data['passport']}" />
+                {if $student_data['passport']}
+                <img class="floor col" id="passport" src="{$student_data['passport']}" alt="" />
+                {else}
+                <img class="add passport" src="/addons/maixun_pte/template/mobile/img/add.png" alt="" />
+                <div class="passport">上传护照扫描件</div>
+                {/if}
+              </div>
+
+            </div>
+            <div class="wrap1">
+              <span>成绩单</span>
+              <div class="floor col" data-type="report" onclick="choice($(this))">
+                <input name="report" type="hidden" value="{$student_data['report']}" />
+                {if $student_data['passport']}
+                <img class="floor col" id="report" src="{$student_data['report']}" alt="" />
+                {else}
+                <img class="add report" src="/addons/maixun_pte/template/mobile/img/add.png" alt="" />
+                <div class="report">上传成绩单</div>
+                {/if}
+              </div>
+
+            </div>
+          </div>
+          <div class="row justify">
+            <div class="wrap1">
+              <span>毕业证</span>
+              <div class="floor col" data-type="diploma" onclick="choice($(this))">
+                <input name="diploma" type="hidden" value="{$student_data['diploma']}" />
+                {if $student_data['passport']}
+                <img class="floor col" id="diploma" src="{$student_data['diploma']}" alt="" />
+                {else}
+                <img class="add diploma" src="/addons/maixun_pte/template/mobile/img/add.png" alt="" />
+                <div class="diploma">上传毕业证</div>
+                {/if}
+              </div>
+            </div>
+            <div class="wrap1">
+              <span>存款证明</span>
+
+              <div class="floor col" data-type="certificate" onclick="choice($(this))">
+                <input name="certificate" type="hidden" value="{$student_data['certificate']}" />
+                {if $student_data['passport']}
+                <img class="floor col" id="certificate" src="{$student_data['certificate']}" alt="" />
+                {else}
+                <img class="add certificate" src="/addons/maixun_pte/template/mobile/img/add.png" alt="" />
+                <!-- <img class="add certificate"  id="certificate" src="/addons/maixun_pte/template/mobile/img/exp.png" alt="" /> -->
+                <div class="certificate">上传存款证明扫描件</div>
+                {/if}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="btn1-group">
+          <div class="btn cancel" onclick="cancel()">取消</div>
+          <div class="btn save" onclick="submit()">保存修改</div>
+        </div>
+      </form>
+    </div>
+
+    <!-- 底部tab -->
+    <div class="tab color">
+        <a href="{php echo $this->createMobileUrl('s_sign')}">
+          <div class="item  " data-url="">
+            <img class="icon" src="/addons/maixun_pte/template/mobile/img/icon1b.png" alt="" />
+            <span>考勤</span>
+          </div>
+        </a>
+        <a href="{php echo $this->createMobileUrl('s_task')}">
+          <div class="item ">
+            <img class="icon" src="/addons/maixun_pte/template/mobile/img/icon2b.png" alt="" />
+            <span>课程</span>
+          </div>
+        </a>
+        <a href="{php echo $this->createMobileUrl('s_userinfo')}">
+          <div class="item a-color">
+            <img class="icon" src="/addons/maixun_pte/template/mobile/img/icon3a.png" alt="" />
+            <span>我的</span>
+          </div>
+        </a>
+      </div>
+  </div>
+</body>
+<script src="https://cdn.staticfile.org/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+<script src="/addons/maixun_pte/template/mobile/js/mobilemain.js"></script>
+<script src="/addons/maixun_pte/template/mobile/js/layer/layer.js"></script>
+<script>
+  function submit() {
+    var name = $("input[ name='name']").val();
+    var sid = $("input[ name='s_id']").val();
+    var highschool = $("input[ name='senior_school']").val();
+    var email = $("input[ name='email']").val();
+    var purpose_school = $("input[ name='purpose_school']").val();
+    var purpose_major = $("input[ name='purpose_major']").val();
+
+    var sid_img_z = $("input[ name='sid_img_z']").val();
+    var sid_img_b = $("input[ name='sid_img_b']").val();
+    var passport = $("input[ name='passport']").val();
+    var report = $("input[ name='report']").val();
+    var diploma = $("input[ name='diploma']").val();
+    var certificate = $("input[ name='certificate']").val();
+
+    certificate = $("#certificate")[0].src;
+    $.ajax({
+      type: "POST",
+      url: "{php echo $this->createMobileUrl('s_userinfo', array('op'=>'upload'))}", //同目录下的php文件
+      data: {
+        name: name,
+        s_id: sid,
+        senior_school: highschool,
+        email: email,
+        purpose_school: purpose_school,
+        purpose_major: purpose_major,
+        sid_img_z: sid_img_z,
+        sid_img_b: sid_img_b,
+        passport: passport,
+        report: report,
+        diploma: diploma,
+        certificate: certificate,
+      },
+      dataType: "json", //声明成功使用json数据类型回调
+      //如果传递的是FormData数据类型，那么下来的三个参数是必须的，否则会报错
+      cache: false, //默认是true，但是一般不做缓存
+      success: function (msg) { //请求成功后的回调函数
+        console.log(msg);
+        if (msg.code == 200) {
+          layer.open({
+            content: msg.msg,
+            skin: 'msg',
+            time: 2,
+            shadeClose: false
+          });
+          setTimeout(function () {
+            window.location.href = "{php echo $this->createMobileUrl('s_userinfo',array('op'=>'upload'))}";
+          }, 2000)
+        } else {
+          layer.open({
+            content: msg.msg,
+            skin: 'msg',
+            time: 2,
+            shadeClose: false
+          });
+        }
+      }
+    });
+  }
+
+  //选择图片
+  function choice(e) {
+    var type = e.data('type')
+    // console.log('type:->'+type);
+    wx.chooseImage({
+      count: 1,
+      success: function (res) {
+        var localIds = res.localIds;
+        syncUpload(localIds, type);
+      }
+    });
+  }
+  var syncUpload = function (localIds, type) {
+    var localId = localIds.pop();
+    wx.uploadImage({
+      localId: localId,
+      isShowProgressTips: 1,
+      success: function (res) {
+        var serverId = res.serverId; // 返回图片的服务器端ID
+        downphotos(serverId, type);
+      }
+    });
+  };
+
+  function downphotos(serverId, type) {
+    // var url = "{php echo $this->createMobileUrl('getimage');}" + "&media_id=" + media_id;
+    $.ajax({
+      type: "POST",
+      url: "{php echo $this->createMobileUrl('getimage')}", //同目录下的php文件
+      data: {
+        media_id: serverId,
+      },
+      cache: false, //默认是true，但是一般不做缓存
+      success: function (msg) { //请求成功后的回调函数
+        // console.log(msg);
+        var image = '{php echo $this->image_path}';
+        var url = image + msg;
+        $("input[name='" + type + "']").val(url);
+        $("#" + type).attr('src', url);
+      }
+    });
+  }
+
+  function cancel() {
+    window.location.href = "{php echo $this->createMobileUrl('s_userinfo')}";
+  }
+</script>
+
+</html>

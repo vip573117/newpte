@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>深大课程管理——考勤首页</title>
+  <link rel="stylesheet" href="https://cdn.staticfile.org/jquery-weui/1.2.1/css/jquery-weui.min.css" />
+  <link rel="stylesheet" href="/addons/maixun_pte/template/mobile/css/mobilestyle.css" />
+</head>
+
+<body>
+
+  <div class="container">
+    <!-- 内容 -->
+    <div class="contant col">
+      <div class="check">
+        <div class="progrees">
+          <div class="row" style="font-size: 1rem;">2019年上学期考勤统计</div>
+          <div class="row" style="width:80%;">
+            <div>
+              <span>应到：</span>
+              <span class="blue">{$click_tot_num}</span>
+              <span>次</span>
+            </div>
+            <div>
+              <span>实到：</span>
+              <span class="blue">{$sign_num}</span>
+              <span>次</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="circle-item">
+              <div class="circle-bar circle1">
+                <div class="circle-bar-left"></div>
+                <div class="circle-bar-right"></div>
+                <div class="mask">
+                  <span>{$late_num}次</span>
+                  <span class="percent">100</span>
+                </div>
+              </div>
+              <div>迟到</div>
+            </div>
+            <div class="circle-item">
+              <div class="circle-bar circle2">
+                <div class="circle-bar-left"></div>
+                <div class="circle-bar-right"></div>
+                <div class="mask">
+                  <span>{$leave_num}次</span>
+                  <span class="percent">100</span>
+                </div>
+              </div>
+              <div>请假</div>
+            </div>
+            <div class="circle-item">
+              <div class="circle-bar circle3">
+                <div class="circle-bar-left"></div>
+                <div class="circle-bar-right"></div>
+                <div class="mask">
+                  <span>{$truancy_num}次</span>
+                  <span class="percent">100</span>
+                </div>
+              </div>
+              <div>缺勤</div>
+            </div>
+            <div class="circle-item">
+              <div class="circle-bar circle4">
+                <div class="circle-bar-left"></div>
+                <div class="circle-bar-right"></div>
+                <div class="mask">
+                  <span>{$obj['click_percent']}%</span>
+                  <span class="percent">{$obj['click_percent']}</span>
+                </div>
+              </div>
+              <div>出勤率</div>
+            </div>
+          </div>
+        </div>
+        <div class="table">
+          <!-- 时间 -->
+          <div class="colo">
+            <div class="cell"></div>
+            {loop $kscjlist  $time}
+            <div class="cell">
+              <div>{$time['start']}</div>
+              <div>-{$time['end']}</div>
+            </div>
+            {/loop}
+            <!-- <div class="cell">
+              <div>8:30</div>
+              <div>-9:10</div>
+            </div>
+            <div class="cell">
+              <div>9:20</div>
+              <div>-10:00</div>
+            </div>
+            <div class="cell">
+              <div>10:20</div>
+              <div>-11:00</div>
+            </div>
+            <div class="cell">
+              <div>11:10</div>
+              <div>-11:50</div>
+            </div>
+            <div class="cell">
+              <div>14:00</div>
+              <div>-14:40</div>
+            </div>
+            <div class="cell">
+              <div>14:50</div>
+              <div>-15:30</div>
+            </div>
+            <div class="cell">
+              <div>15:50</div>
+              <div>-16:30</div>
+            </div>
+            <div class="cell">
+              <div>16:40</div>
+              <div>-17:20</div>
+            </div>
+            <div class="cell">
+              <div>19:00</div>
+              <div>-20:00</div>
+            </div>
+            <div class="cell">
+              <div>20:30</div>
+              <div>-21:45</div>
+            </div> -->
+          </div>
+          <!-- 周一 -->
+          <div class="colo">
+            <div class="cell">周一</div>
+            {loop $kscjlist  $time}
+            <div class="cell"></div>
+            {/loop}
+            <!-- <div class="cell hour2 cq">
+              <div>PTE-A</div>
+              <div>国交院211</div>
+            </div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div> -->
+
+            <!-- <div class="cell"></div> -->
+          </div>
+          <!-- 周二 -->
+          <div class="colo">
+            <div class="cell">周二</div>
+            {loop $kscjlist  $time}
+            <div class="cell"></div>
+            {/loop}
+            <!-- <div class="cell"></div>
+            <div class="cell hour3 qj">
+              <div>PTE-A</div>
+              <div>国交院211</div>
+            </div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div> -->
+            <!-- <div class="cell"></div> -->
+            <!-- <div class="cell"></div> -->
+          </div>
+          <!-- 周三 -->
+          <div class="colo">
+            <div class="cell">周三</div>
+            {loop $kscjlist  $time}
+            <div class="cell"></div>
+            {/loop}
+            <!-- <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div> -->
+            <!-- <div class="cell"></div> -->
+            <!-- <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell hour2 cd">
+              <div>PTE-A</div>
+              <div>国交院211</div>
+            </div>
+            <div class="cell"></div>
+            <div class="cell"></div> -->
+          </div>
+          <!-- 周四 -->
+          <div class="colo">
+            <div class="cell">周四</div>
+            {loop $kscjlist  $time}
+            {if $course}
+            {else}
+            <div class="cell"></div>
+            {/if}
+           
+            {/loop}
+            <!-- <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div> -->
+          </div>
+          <!-- 周五 -->
+          <div class="colo">
+            <div class="cell">周五</div>
+            {loop $kscjlist  $time}
+            <div class="cell"></div>
+            {/loop}
+            <!-- <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div> -->
+          </div>
+          <img class="arrow1" src="/addons/maixun_pte/template/mobile/img/arrow1.png" alt="">
+          <img class="arrow1" src="/addons/maixun_pte/template/mobile/img/arrow1.png" alt="" style="bottom:59vw;">
+        </div>
+        <div class="row justify tip">
+          <div class="item">
+            <div class="minicir write-bor wkk"></div>
+            <div style="margin-left: 1vw;">未开课</div>
+          </div>
+          <div class="item">
+            <div class="minicir cq"></div>
+            <div style="margin-left: 1vw;">出勤</div>
+          </div>
+          <div class="item">
+            <div class="minicir cd"></div>
+            <div style="margin-left: 1vw;">迟到</div>
+          </div>
+          <div class="item">
+            <div class="minicir qj"></div>
+            <div style="margin-left: 1vw;">请假</div>
+          </div>
+          <div class="item">
+            <div class="minicir qq"></div>
+            <div style="margin-left: 1vw;">缺勤</div>
+          </div>
+          <div class="item">
+            <div class="minicir bk"></div>
+            <div style="margin-left: 1vw;">补卡</div>
+          </div>
+        </div>
+        <div class="row justify btn2-group">
+          <a class="item" href="{php echo $this->createMobileUrl('s_sign',array('op'=>'click_list'))}">
+            <div>出勤</div>
+          </a>
+          <a class="item" href="{php echo $this->createMobileUrl('s_sign',array('op'=>'upsign_list'))}">
+            <div>补卡</div>
+          </a>
+          <a class="item" href="{php echo $this->createMobileUrl('s_sign',array('op'=>'leave_list'))}">
+            <div>请假</div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 底部tab -->
+    <div class="tab color">
+      <a href="{php echo $this->createMobileUrl('s_sign')}">
+        <div class="item a-color">
+          <img class="icon" src="/addons/maixun_pte/template/mobile/img/icon1a.png" alt="" />
+          <span>考勤</span>
+        </div>
+      </a>
+      <a href="{php echo $this->createMobileUrl('s_task')}">
+        <div class="item">
+          <img class="icon" src="/addons/maixun_pte/template/mobile/img/icon2b.png" alt="" />
+          <span>课程</span>
+        </div>
+      </a>
+      <a href="{php echo $this->createMobileUrl('s_userinfo')}">
+        <div class="item">
+          <img class="icon" src="/addons/maixun_pte/template/mobile/img/icon3b.png" alt="" />
+          <span>我的</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</body>
+<script src="https://cdn.staticfile.org/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+<script src="/addons/maixun_pte/template/mobile/js/mobilemain.js"></script>
+<script>
+
+
+</script>
+
+</html>

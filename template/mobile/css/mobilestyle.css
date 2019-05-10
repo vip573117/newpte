@@ -1,0 +1,947 @@
+/* 盒子尺寸重置 */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* 清除浮动 */
+.clearfix::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+/* 浮动 */
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+/* 截断文本 */
+.truncate-text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+/* 多行截断文本 */
+.truncate-multext {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* 去除input样式 */
+
+input,
+button {
+  background: none;
+  outline: none;
+  border: 0px;
+  padding-left: 4px;
+}
+
+/* 字号 */
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+/* 蒙层 */
+.popup-bg {
+  position: absolute;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  display: none;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.bg {
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.a-color {
+  color: #364d70;
+}
+
+.color {
+  color: #b7b7b7;
+}
+
+.info {
+  color: #a3d6ca;
+  border: 1px solid #a3d6ca;
+}
+
+.error {
+  color: #ed617a;
+  border: 1px solid #ed617a;
+}
+
+.wait {
+  color: #f1a46b;
+  border: 1px solid #f1a46b;
+}
+
+html {
+  width: 100vw;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0 auto;
+  background-color: #f5f5f5;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+}
+
+.align {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.justify {
+  justify-content: space-between;
+}
+
+.fw {
+  font-weight: bold;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.avatar {
+  width: 15vw;
+  height: 15vw;
+  border-radius: 100%;
+  border: 3px solid #fff;
+}
+
+.avatar1 {
+  width: 15vw;
+  height: 15vw;
+  border-radius: 100%;
+}
+
+/* 内容 */
+.contant {
+  width: 100vw;
+  height: 90vh;
+  display: flex;
+  overflow-y: auto;
+}
+
+/* 底部tab */
+.tab {
+  width: 100vw;
+  height: 10vh;
+  position: fixed;
+  bottom: 0;
+  border-top: 1px solid #dcdcdc;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  flex-direction: row;
+}
+
+.tab a {
+  flex: 1;
+  text-align: center;
+  color: inherit;
+}
+
+.tab .item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  font-size: 0.8rem;
+}
+
+.tab .item .icon {
+  height: 6vw;
+  margin-bottom: 1vw;
+}
+
+/* 课程作业 */
+
+.left-tab {
+  width: 24vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  color: #a5a5a5;
+  font-weight: bold;
+}
+
+.left-tab .item {
+  margin-top: 3vh;
+  width: 100%;
+  font-size: 0.7rem;
+  height: 4vh;
+  padding-left: 2vw;
+  display: flex;
+  align-items: center;
+  border-left: 3px #f5f5f5 solid;
+}
+
+.left-tab .item.active {
+  color: #364d70;
+  border-left: 3px #364d70 solid;
+}
+
+.right-zoom {
+  width: 76vw;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 4vw 0;
+}
+
+.right-zoom .item {
+  width: 72vw;
+  margin: 0 auto;
+  margin-bottom: 4vw;
+  background-color: #ffffff;
+  padding: 3vw;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.7rem;
+}
+
+.justify {
+  justify-content: space-between;
+  margin-bottom: 2vh;
+}
+
+.right-zoom .item .row {
+  align-items: center;
+}
+
+.right-zoom .item .row .lesson,
+.right-zoom .item .row .score {
+  font-weight: bolder;
+  font-size: 0.9rem;
+}
+
+.tag {
+  font-size: 0.7rem;
+  width: 14vw;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 我的 */
+.profile {
+  width: 100vw;
+  height: 53vw;
+background-image: url(/addons/maixun_pte/template/mobile/img/wx_profile.png);
+  color: #fff;
+}
+.profile div div {
+  margin-top: 1vh;
+}
+
+.btn-group {
+  margin-top: 10vh;
+  color: #222;
+}
+
+.btn-group .item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-group .item .icon1 {
+  width: 12vw;
+  margin-bottom: 1vh;
+}
+
+/* 个人资料 */
+.area {
+  margin-top: 2vh;
+  width: 100vw;
+  padding: 3vw 3vw;
+  background-color: #ffffff;
+}
+
+.area .row {
+  align-items: center;
+  font-size: 0.8rem;
+  margin-bottom: 4vw;
+}
+
+.area .row label {
+  color: #a5a5a5;
+  width: 20%;
+}
+
+.area .row .wrap {
+  width: 80%;
+  padding: 1.5vw 0;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.area .row .wrap input {
+  color: #222;
+  font-size: 0.8rem;
+  width: 100%;
+}
+
+.area .row .wrap1 {
+  display: flex;
+  flex-direction: column;
+  width: 44vw;
+}
+
+.area .row .wrap1 span {
+  margin-bottom: 1vh;
+  color: #a5a5a5;
+}
+
+.area .row .wrap1 .floor {
+  width: 100%;
+  height: 25vw;
+  background-color: #e8f1ff;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fafcff;
+  font-size: 0.7rem;
+}
+
+.area .row .wrap1 .floor .add {
+  width: 8vw;
+  margin-bottom: 3vw;
+}
+
+.btn1-group {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.btn1-group .btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30vw;
+  height: 6vh;
+  margin: 4vw;
+  border-radius: 25px;
+  border: 1px solid #364d70;
+}
+
+.cancel {
+  color: #364d70;
+}
+
+.save {
+  background-color: #364d70;
+  color: #fff;
+}
+
+/* 考试 */
+.test {
+  width: 92vw;
+  background-color: #ffffff;
+  margin: 3vw auto;
+  padding: 3vw;
+  border-radius: 8px;
+}
+
+.test .top {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 3vw;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.test .mate {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 3vw;
+}
+
+.test .mate .item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 18vw;
+}
+
+.test .mate .item .circle {
+  width: 14vw;
+  height: 14vw;
+  border-radius: 100%;
+  background-color: #e8e8e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.test .mate .item .name {
+  color: #a5a5a5;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.test .mate .item.active .circle {
+  background-color: #364d70;
+}
+
+.test .mate .item.active .name {
+  color: #222;
+}
+
+.test .time {
+  margin-top: 3vw;
+}
+
+/* 请假  补卡*/
+.leave {
+  width: 92vw;
+  background-color: #ffffff;
+  margin: 3vw auto;
+  padding: 6vw 3vw;
+  border-radius: 8px;
+}
+
+.leave .row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.leave .row:not(:last-child) {
+  margin-bottom: 6vw;
+}
+
+.leave .row .arrow {
+  width: 2%;
+}
+
+.leave .row label {
+  width: 30%;
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.leave .row label .star {
+  margin-left: 1vw;
+}
+
+.leave .row input {
+  width: 65%;
+  font-size: 0.9rem;
+}
+
+.leave .row input::placeholder {
+  font-size: 0.9rem;
+  margin-top: 2vw;
+}
+
+.leave .row textarea {
+  width: 70%;
+  border: 1px solid #e5e5e5;
+  padding: 2vw;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+#upload {
+  display: none;
+}
+
+.leave .row .upload-wrap {
+  width: 70%;
+  border: 1px solid #e5e5e5;
+  padding: 2vw;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.upload-btn {
+  width: 16vw;
+}
+
+/* 考勤 */
+.check {
+  width: 92vw;
+  margin: 3vw auto;
+  font-size: 0.8rem;
+}
+
+.check .row {
+  width: 100%;
+  /* padding: 0vw 3vw; */
+  justify-content: space-between;
+  align-items: center;
+}
+
+.check .row .list {
+  width: 62%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.check .row .list .item {
+  padding: 2vw 3vw;
+}
+
+.check .row .list .item.active {
+  background-color: #fff;
+  color: #222;
+  border-radius: 10px;
+  box-shadow: 1px 1px 1px 2px #f1f1f1;
+  font-weight: bold;
+  position: relative;
+}
+
+.check .row .list .item.active .line {
+  position: absolute;
+  width: 4vw;
+  height: 0.7vw;
+  background-color: #222222;
+  bottom: 0;
+  left: 5.5vw;
+  border-radius: 3px;
+}
+
+.create {
+  width: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #364d70;
+  color: #364d70;
+  padding: 1vw 0;
+  border-radius: 14px;
+}
+
+.check-container {
+  width: 100%;
+  margin-top: 4vw;
+}
+
+.check-list .item {
+  width: 100%;
+  padding: 3vw;
+  background-color: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  margin-bottom: 3vw;
+}
+
+.check-list .item .detail {
+  display: flex;
+  flex-direction: column;
+  width:70%
+}
+
+.check-list .item .detail .statu,
+.check-list .item .detail .lesson,
+.check-list .item .detail .times {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.check-list .item .day {
+  color: #a5a5a5;
+}
+
+/* 考勤首页 */
+
+.progrees {
+  width: 92vw;
+  margin: 3vw auto;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 3vw;
+  border-radius: 10px;
+}
+
+.progrees .row:not(:last-child) {
+  margin-bottom: 3vw;
+}
+
+.blue {
+  color: #778ab2;
+}
+
+.circle-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/*支持IE9及以上*/
+.circle-bar {
+  font-size: 16vw;
+  width: 1em;
+  height: 1em;
+  position: relative;
+  margin-bottom: 1vw;
+}
+
+.circle1 {
+  background-color: #ffecda;
+}
+
+.circle2 {
+  background-color: #a6d0e4;
+}
+
+.circle3 {
+  background-color: #d4a5a5;
+}
+
+.circle4 {
+  background-color: #778ab2;
+}
+
+.circle-bar-left,
+.circle-bar-right {
+  width: 1em;
+  height: 1em;
+  background-color: #eee;
+}
+
+.circle-bar-right {
+  clip: rect(0, auto, auto, 0.5em);
+}
+.circle-bar-left {
+  clip: rect(0, 0.5em, auto, 0);
+}
+
+.mask {
+  width: 0.8em;
+  height: 0.8em;
+  background-color: #fff;
+  text-align: center;
+  line-height: 0.2em;
+  color: #222;
+}
+.mask :first-child {
+  font-size: 0.2em;
+  height: 0.8em;
+  line-height: 0.8em;
+  display: block;
+}
+
+.percent {
+  display: none !important;
+}
+
+/*所有的后代都水平垂直居中，这样就是同心圆了*/
+.circle-bar * {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+}
+/*自身以及子元素都是圆*/
+.circle-bar,
+.circle-bar > * {
+  border-radius: 50%;
+}
+
+.table {
+  width: 92vw;
+  margin: 3vw auto;
+  height: 108vw;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+.arrow1 {
+  width: 2vw;
+  position: absolute;
+  left: 0;
+  bottom: 19vw;
+}
+
+.colo {
+  width: 16vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #576984;
+}
+
+.colo:first-child {
+  border-left: 1px solid #576984;
+}
+
+.colo:first-child .cell {
+  flex-direction: column;
+}
+
+.cell {
+  width: 100%;
+  height: 10vw;
+  border-bottom: 1px solid #576984;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.5rem;
+  flex-direction: column;
+  position: relative;
+  text-align: center;
+}
+
+.cell:first-child {
+  border-top: 1px solid #576984;
+  height: 8vw;
+}
+
+.colo:first-child,
+.colo:first-child .cell:first-child {
+  border-top-left-radius: 6px;
+}
+
+.colo:first-child,
+.colo:first-child .cell:last-child {
+  border-bottom-left-radius: 6px;
+}
+
+.colo:last-child,
+.colo:last-child .cell:first-child {
+  border-top-right-radius: 6px;
+}
+
+.colo:last-child,
+.colo:last-child .cell:last-child {
+  border-bottom-right-radius: 6px;
+}
+
+.cell.hour2 {
+  height: 20vw;
+}
+
+.cell.hour3 {
+  height: 30vw;
+}
+
+.tl {
+  border-top-left-radius: 10px;
+}
+
+.tr {
+  border-top-right-radius: 10px;
+}
+
+.bl {
+  border-bottom-left-radius: 10px;
+}
+
+.br {
+  border-bottom-right-radius: 10px;
+}
+
+.wkk {
+  background-color: #ffffff;
+}
+
+.cq {
+  background-color: #ddf6df;
+}
+
+.qj {
+  background-color: #a6d0e4;
+}
+
+.cd {
+  background-color: #ffecda;
+}
+
+.qq {
+  background-color: #d4a5a5;
+}
+
+.bk {
+  background-color: #778ab2;
+}
+
+.minicir {
+  width: 3vw;
+  height: 3vw;
+  border-radius: 100%;
+}
+
+.write-bor {
+  border: 1px solid #222;
+}
+
+.tip .item {
+  display: flex;
+  flex-direction: row;
+  font-size: 0.5rem;
+  align-items: center;
+}
+
+.btn2-group {
+  width: 100%;
+}
+
+.btn2-group .item {
+  width: 30%;
+  height: 8vw;
+  color: #364d70;
+  border: 1px solid #364d70;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  text-align: center;
+  line-height: 8vw;
+}
+
+.final {
+  width: 92vw;
+  margin: 3vw auto;
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.final .item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 3vw;
+  background-color: #ffffff;
+  border-radius: 10px;
+  margin-bottom: 3vw;
+}
+
+.final .item.end {
+  background-image: url(/addons/maixun_pte/template/mobile/img/final-bg.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  color: #fff;
+}
+
+.final .item .title {
+  font-size: 0.9rem;
+}
+
+.final .item.end .line {
+  background-color: #536ea9;
+}
+
+.final .item .line {
+  width: 100%;
+  height: 1px;
+  background-color: #eeeeee;
+  margin: 2vw auto;
+}
+
+.final .item .grade {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 1vw auto;
+}
+
+.final .item .grade .lesson {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 40%;
+}
+
+.final .item .time {
+  font-size: 0.6rem;
+  color: #b1b1b1;
+  display: flex;
+  flex-direction: row;
+  margin-top: 2vw;
+}
+
+.final .item.end .time {
+  color: #6b778e;
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>pte</title>
+    <meta name="viewport" content="width=750, user-scalable=no" />
+</head>
+
+<body>
+    <div class="form">
+        <div class="box">
+            <!-- <span>{$success}</span> -->
+            {if !empty($id)}
+            {if $success == 'success'} <span>修改成功</span> {/if}
+            {if $success == 'error'} <span>修改失败</span> {/if}
+            {/if}
+            {if empty($id)}
+            {if $success == 'success'} <span>添加成功</span> {/if}
+            {if $success == 'error'} <span>添加失败</span> {/if}
+            {/if}
+        </div>
+    </div>
+    
+    
+    <script type="text/javascript" src="/addons/maixun_pte/template/mobile/js/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="/addons/maixun_pte/template/mobile/js/main.js"></script>
+    <script src="/addons/maixun_pte/template/mobile/js/layer/layer.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            setTimeout(function () {
+                window.location.href = "{php echo $this->createMobileUrl('t_task')}";
+            }, 2000)
+        });
+
+    </script>
+</body>
+
+</html>

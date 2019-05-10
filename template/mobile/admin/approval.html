@@ -1,0 +1,215 @@
+{template 'admin/header'}
+{template 'admin/slide'}
+<!-- 模态框 -->
+<div class="modal fade popup-pd" id="myModal1">
+    <div class="modal-dialog popup-wid">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title" style="margin:0 auto;">新增课程时间模板</h4>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <form action="">
+                    <input type="hidden" name="id" value="">
+                    <div class="form-group clearfix">
+                        <label for="names">选择老师:</label>
+                        <select class="form-control" name="selectschool" id="names">
+                            {loop $teacher $vo}
+                            <!-- <input type="hidden" name="openid" value="{$vo['openid']}"> -->
+                            <option value="{$vo['id']}" data-openid="{$vo['openid']}">{$vo['name']}</option>
+                            {/loop}
+                        </select>
+                    </div>
+                    <!-- <div class="form-group clearfix">
+                        <label for="tel">姓名:</label>
+                        <textarea type="text" class="form-control" id="startlist_time_x" name="startlist_time"
+                            placeholder="请输入所以课程的开始时间（逗号隔开）"></textarea>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label for="tel">课程结束时间集合:</label>
+                        <textarea type="text" class="form-control" id="endlist_time_x" name="endlist_time"
+                            placeholder="请输入所以课程的结束时间（逗号隔开）"></textarea>
+                    </div> -->
+                </form>
+            </div>
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <div class="btn-group1">
+                    <button type="button" class="btn btn-secondary my-btn5 blue" data-dismiss="modal"
+                        onclick="submit1()" style="margin-right:10%;">确定</button>
+                    <button type="button" class="btn btn-secondary my-btn5 red" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 内容 -->
+<div class="container-wrap">
+    <div class="container-panel editor">
+        <div class="container-fluid">
+            <div class="row">
+                <div onclick="newadd()" class="col-md-2 btn-wrap" data-toggle="modal" data-target="#myModal1">
+                    <img src="/addons/maixun_pte/template/mobile/img/add.png" alt="">
+                    <span>新增</span>
+                </div>
+                <!-- <div class="col-md-2 btn-wrap">
+                        <img src="/addons/maixun_pte/template/mobile/img/ban.png" alt="">
+                        <span>禁止</span>
+                    </div>
+                    <div class="col-md-2 btn-wrap">
+                        <img src="/addons/maixun_pte/template/mobile/img/finish.png" alt="">
+                        <span>启用</span>
+                    </div> -->
+                <div class="col"></div>
+                <!-- <div class="col-md-4">
+                    <div class="dropdown text-center" style="margin-top:2em">
+                        <button type="button" class="btn " data-toggle="dropdown">
+                            选择校区
+                        </button>
+                        <select class="form-control" name="selectschool" id="names">
+                            {loop $schoollist $vo}
+                            <option value="{$vo['id']}">{$vo['title']}</option>
+                            {/loop}
+                        </select>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <div class="container-panel record">
+        <div class="container-fluid">
+
+            <div class="row chart-item">
+                <div class="col">序号</div>
+                <div class="col">openid</div>
+                <div class="col">姓名</div>
+                <div class="col">添加时间</div>
+                <div class="col">状态</div>
+                <div class="col-md-4">操作</div>
+            </div>
+            {loop $examine $item}
+            <div class="row chart-item" data-info="{php echo json_encode($item);}">
+                <div class="col">{$item['id']}</div>
+                <div class="col">{$item['openid']}</div>
+                <div class="col">{$item['name']}</div>
+                <div class="col">{php echo date('Y-m-d',$item['createtime'])}</div>
+                <div class="col">{php echo $item['status']==1?'开启':'关闭'}</div>
+                <div class="col-md-4">
+                    <button class="btn my-btn green" data-id="{$item['id']}" data-type="{$item['status']}"
+                        data-type_x="edit" onclick='gostatus($(this))'>{php echo $item['status']==1?'关闭':'开启'}</button>
+                    <button class="btn my-btn red" data-id="{$item['id']}" data-type="{$item['status']}"
+                        data-type_x="delete" onclick="gostatus($(this))">删除</button>
+                </div>
+            </div>
+            {/loop}
+        </div>
+    </div>
+    {$pager}
+    <!-- <ul class="pagination">
+        <li class="page-item"><a class="page-link page-pull" href="#">上一页</a></li>
+        <li class="page-item active"><a class="page-link page-num" href="#">1</a></li>
+        <li class="page-item"><a class="page-num page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link page-num" href="#">3</a></li>
+        <li class="page-item"><a class="page-link page-pull page-ban" href="#">下一页</a></li>
+    </ul> -->
+</div>
+<script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+    function submit1() {
+        var name =$("#names").find("option:selected").text();
+        var teacher_id =$("#names").find("option:selected").val();
+        var openid =$("#names").find("option:selected").data('openid');
+        var id = $("input[ name='id' ] ").val()
+        // var title = $(" input[ name='title' ] ").val()
+        // var startlist_time_x = $("#startlist_time_x").val()
+        // var endlist_time_x = $("#endlist_time_x").val()
+        // alert(id + '  ' + name + '  ' + teacher_id+ '  ' + openid );
+        // return false;
+        $.ajax({
+            type: 'POST',
+            url: "{php echo $this->createMobileUrl('a_approval',array('op'=>'add'))}",
+            data: {
+                'id': id,
+                'name': name,
+                'teacher_id': teacher_id,
+                'openid': openid,
+            },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data.code == 200) {
+                    layer.open({
+                        content: data.msg,
+                        skin: 'msg',
+                        time: 2,
+                        shadeClose: false
+                    });
+                    $("input[ name='id' ] ").attr("value", '');
+                    setTimeout(function () {
+                        window.location.href =
+                            "{php echo $this->createMobileUrl('a_approval',array('page'=>$page))}";
+                    }, 2000)
+                } else {
+                    layer.open({
+                        content: data.msg,
+                        skin: 'msg',
+                        time: 2,
+                        shadeClose: false
+                    });
+                    $("input[ name='id' ] ").attr("value", '');
+                }
+            },
+        });
+    }
+
+    function newadd() {
+        console.log('aaa');
+        $("#names  option").attr("selected", false)
+        $("input[ name='id' ] ").attr("value", '');
+    }
+
+
+    function gostatus(e) {
+        var id = e.data('id')
+        var type = e.data('type')
+        var type_x = e.data('type_x')
+        //alert('id：' + id + "  type:" + type + "  typeid" + typeid);
+        $.ajax({
+            type: 'POST',
+            url: "{php echo $this->createMobileUrl('a_approval',array('op'=>'status'))}",
+            data: {
+                'id': id,
+                'type': type,
+                'type_x': type_x,
+            },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data.code == 200) {
+                    layer.open({
+                        content: data.msg,
+                        skin: 'msg',
+                        time: 2,
+                        shadeClose: false
+                    });
+                    setTimeout(function () {
+                        window.location.href = "{php echo $this->createMobileUrl('a_approval')}";
+                    }, 2000)
+                } else {
+                    layer.open({
+                        content: data.msg,
+                        skin: 'msg',
+                        time: 2,
+                        shadeClose: false
+                    });
+                }
+            },
+        });
+    }
+
+    $(document).ready(function () {
+        $("#a_approval").addClass('active');
+    });
+</script>
+{template 'admin/footer'}

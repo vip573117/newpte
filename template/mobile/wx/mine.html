@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>深大课程管理——我的</title>
+  <link rel="stylesheet" href="https://cdn.staticfile.org/jquery-weui/1.2.1/css/jquery-weui.min.css" />
+  <link rel="stylesheet" href="/addons/maixun_pte/template/mobile/css/mobilestyle.css" />
+</head>
+<style>
+  a {
+    text-decoration: none;
+    color: rgb(131, 130, 130);
+  }
+</style>
+
+<body>
+  <div class="container">
+    <!-- 内容 -->
+    <div class="contant col">
+      <!-- 头像与背景 -->
+      <div class="profile bg align">
+        <div class="col align">
+          <img class="avatar" src="{$student_info['handurl']}" alt="" />
+          <div>{$student_info['name']}</div>
+          <div>学号 <span>{$student_info['student_num']}</span></div>
+        </div>
+      </div>
+      <!-- 按钮 -->
+      <div class="btn-group row">
+        <div class="item">
+          <a class="item" href="{php echo $this->createMobileUrl('s_userinfo',array('op'=>'upload'))}">
+            <img class="icon1" src="/addons/maixun_pte/template/mobile/img/wx_icon4.png" alt="" />
+            <span>我的资料</span>
+          </a>
+        </div>
+        <div class="item">
+          <a class="item" href="{php echo $this->createMobileUrl('s_examination')}">
+            <img class="icon1" src="/addons/maixun_pte/template/mobile/img/wx_icon5.png" alt="" />
+            <span>成绩</span>
+          </a>
+        </div>
+        <div class="item">
+          <a class="item" href="{php echo $this->createMobileUrl('s_ground')}">
+            <img class="icon1" src="/addons/maixun_pte/template/mobile/img/wx_icon6.png" alt="" />
+            <span>考试</span>
+          </a> 
+        </div>
+      </div>
+    </div>
+    <!-- 底部tab -->
+
+
+
+    <div class="tab color">
+        <a href="{php echo $this->createMobileUrl('s_sign')}">
+          <div class="item  " data-url="">
+            <img class="icon" src="/addons/maixun_pte/template/mobile/img/icon1b.png" alt="" />
+            <span>考勤</span>
+          </div>
+        </a>
+        <a href="{php echo $this->createMobileUrl('s_task')}">
+          <div class="item ">
+            <img class="icon" src="/addons/maixun_pte/template/mobile/img/icon2b.png" alt="" />
+            <span>课程</span>
+          </div>
+        </a>
+        <a href="{php echo $this->createMobileUrl('s_userinfo')}">
+          <div class="item a-color">
+            <img class="icon" src="/addons/maixun_pte/template/mobile/img/icon3a.png" alt="" />
+            <span>我的</span>
+          </div>
+        </a>
+      </div>
+  </div>
+</body>
+<script src="https://cdn.staticfile.org/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+<script src="/addons/maixun_pte/template/mobile/js/main.js"></script>
+
+</html>

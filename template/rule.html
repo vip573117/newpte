@@ -1,0 +1,36 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		添加活动
+	</div>
+	<div class="panel-body">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">活动标题</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" name="title" value="{$reply['title']}" />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">活动头图</label>
+			<div class="col-sm-9">
+				{php echo tpl_form_field_image('thumb', $reply['thumb']);}
+				<span class="help-block"></span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">活动简介</label>
+			<div class="col-sm-8">
+				<textarea id="reply-add-text" name="description" class="form-control" style="height:100px;">{$reply['description']}</textarea>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 此函数为扩展验证表单JS，您有需要验证可以实现此函数提示错误信息，当然也可以不实现。-->
+<script language='javascript'>
+    require(['jquery', 'util'], function($, u){
+		$(function(){
+		});
+    });
+</script>

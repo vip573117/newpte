@@ -1,0 +1,676 @@
+{template 'student/header'}
+{template 'student/slide'}
+<style>
+    .hw-item{
+        margin-bottom: 4em;
+    }
+        .q-title {
+            text-align: left;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            width: 100%;
+            font-size: 1.2em;
+            padding-bottom: 0.5em;
+        }
+        .q-title p{
+            word-break:normal;
+            white-space:pre-wrap;
+            word-wrap:break-word;
+            }
+        .q-ans {
+            color: #c0c0c0;
+            text-align: left;
+            width: 100%;
+            padding-left: 1.8em;
+            margin-top: 1em;
+        }
+
+        .q-pic {
+            margin-top: 1em;
+            text-align: left;
+            padding-left: 1.8em;
+        }
+        .q-pic img{
+            width: 25%;
+            margin-right: 3%;
+            margin-bottom: 1em;
+        }
+        .btn-group{
+            width: 100%;
+            margin-top: 1em;
+            text-align: left;
+            padding-left:1.8em;
+        }
+        .comments{
+            text-align: left;
+        }
+        .co-title{
+            color: #6bccc9;
+            font-size: 1.2em;
+        }
+        .co-box{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1em;
+            border: 1px solid #6bccc9;
+            border-radius: 6px;
+            padding: 0.5em;
+            height: 83%;
+            color:#6bccc9;
+            overflow-y: auto;
+            overflow-x:hidden;
+        }
+        .co-box img{
+            width: 80%;
+            display: block;
+        }
+        .file{
+            position: relative;
+            overflow: hidden;
+        }
+        .file input{
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            right: 0;
+            top: 0;
+            opacity: 0;
+        }
+    .show-file{margin: 20px;vertical-align: middle;}
+    .flex-box{display: flex;justify-content: center; align-items: center;}
+    .file-show{
+            width: 70%;
+            min-height: 4em;
+            margin-left: 15%;
+            border: 1px solid #6bccc9;
+            border-radius: 6px;
+            padding-top: 1em;
+            
+        }
+
+        .file-item{
+            position: relative;
+            border: 1px solid #6bccc9;
+            padding: 0.4em 0.8em;
+            line-height: 20px;
+            border-radius: 6px;
+            color: #6bccc9;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 1em;
+            margin-bottom: 1em;
+        }
+
+        .file-item:hover{
+            color: #fff;
+            background-color: #6bccc9;
+        }
+
+        .file-item span{
+            vertical-align: middle;
+        }
+
+        .my-close1{
+            position: absolute;
+            right: 5%;
+        }
+
+        .ans-area{
+            border: 1px solid #ddd
+        }
+
+        .saveit{
+           color:#fff;
+           margin-top: 10px;
+        margin-left: -20px;   
+        }
+    </style>
+<div id="outerdiv" style="text-align: center;position: fixed;z-index: 1000;top: 0;left: 0;
+   width: 100%;height: 100%;background-color: rgba(255,255,255,.9);">
+    <img id="bigimg" style="max-height: 100%;border: 0;
+       margin: auto;position: absolute;top: 0;bottom: 0;left: 0;right: 0;"
+        src="" />
+</div>
+<!-- 模态框 （图片） -->
+<div class="modal fade popup-pd" id="upModal">
+    <div class="modal-dialog popup-wid">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title" style="margin:0 auto;">上传图片</h4>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <form action="">
+                    <div class="flex-box">
+                        <input id="image_item_id" type="hidden" value="">
+                        <input id="image_item_tdid" type="hidden" value="">
+                        <button class="btn my-btn3 file" id="file1">
+                            <span>选择文件</span>
+                            <input id="filea" type="file">
+                        </button>
+                        <span class="show-file show-file1">未选择文件</span>
+                        <!-- <button class="btn my-btn3">上传</button> -->
+                    </div>
+                </form>
+            </div>
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <div class="btn-group1">
+                    <button type="button" class="btn btn-secondary my-btn5 blue" data-dismiss="modal" style="margin-right:10%;"
+                        data-id="{$sttid}" data-taskid="{$taskid}" data-studentid="{$studentid}" data-type="image"
+                        onclick="submit($(this))">确定</button>
+                    <button type="button" class="btn btn-secondary my-btn5 red" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 模态框 （文件） -->
+<div class="modal fade popup-pd" id="fileModal">
+    <div class="modal-dialog popup-wid">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title" style="margin:0 auto;">上传图片</h4>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <form action="">
+                    <div class="flex-box">
+                        <input id="file_item_id" type="hidden" value="">
+                        <input id="file_item_tdid" type="hidden" value="">
+                        <button class="btn my-btn3 file" id="filel">
+                            <span>选择文件</span>
+                            <input id="filen" type="file">
+                        </button>
+                        <span class="show-file show-file3">未选择文件</span>
+                        <!-- <button class="btn my-btn3">上传</button> -->
+                    </div>
+                </form>
+            </div>
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <div class="btn-group1">
+                    <button type="button" class="btn btn-secondary my-btn5 blue" data-dismiss="modal" style="margin-right:10%;"
+                        data-id="{$sttid}" data-taskid="{$taskid}" data-studentid="{$studentid}" data-type="file"
+                        onclick="submit($(this))">确定</button>
+                    <button type="button" class="btn btn-secondary my-btn5 red" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div id="content">
+    <textarea id="debug" readonly="readonly">Debugging Log</textarea><br />
+    <button id="record">Record</button>
+    <button id="stop">Stop</button>
+    <button id="play">Play</button>
+    <button id="upload">Upload</button>
+    <button id="getDebugLog">Get Debug Log</button>
+</div> -->
+
+
+<!-- 模态框（语音） -->
+<div class="modal fade popup-pd" id="muModal">
+    <div class="modal-dialog popup-wid">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title" style="margin:0 auto;">上传语音</h4>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <div id="record_status" style="display:block;text-align:center;padding:20px 0;">等待录音</div>
+                <div class="flex-box">
+                    <input id="voice_item_id" type="hidden" value="">
+                    <input id="voice_item_tdid" type="hidden" value="">
+                    <div id="content">
+                        <button id="record">开始录音</button>
+                        <button id="play" style="display:none;">试听</button>
+                        <button id="stop" style="display:none;">停止</button>
+                    </div>
+                    <!-- <button class="btn my-btn3">上传</button> -->
+                </div>
+            </div>
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <div class="btn-group1">
+                    <button type="button" class="btn btn-secondary my-btn5 blue" data-dismiss="modal" style="margin-right:10%;"
+                        data-id="{$sttid}" data-taskid="{$taskid}" data-studentid="{$studentid}" data-type="voice" id="uploadRecord">确定</button>
+                    <button type="button" class="btn btn-secondary my-btn5 red" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 模态框（文字） -->
+<div class="modal fade popup-pd" id="woModal">
+    <div class="modal-dialog popup-wid">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title" style="margin:0 auto;">提交文字</h4>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <form action="">
+                    <div class="form-group clearfix">
+                        <input id="text_item_id" type="hidden" value="">
+                        <input id="text_item_tdid" type="hidden" value="">
+                        <label for="name">提交文字:</label>
+                        <textarea type="text" id="subtext" class="form-control"></textarea>
+                    </div>
+                </form>
+            </div>
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <div class="btn-group1">
+                    <button type="button" class="btn btn-secondary my-btn5 blue" data-dismiss="modal" style="margin-right:10%;"
+                        data-id="{$sttid}" data-taskid="{$taskid}" data-studentid="{$studentid}" data-type="text"
+                        onclick="submit($(this))">确定</button>
+                    <button type="button" class="btn btn-secondary my-btn5 red" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 内容 -->
+<div class="container-wrap">
+    <div class="container-panel wrap" style="min-height:46em;">
+        <div class="container-fluid">
+            <div class="row item-top">
+                <div class="col-md-3 text-left" onclick="returnpage()">
+                    <img class="sys" src="/addons/maixun_pte/template/mobile/img/back.png" alt="back">
+                    <span>返回</span>
+                </div>
+                <div class="col"></div>
+                <div class="col-md-3 text-right">
+
+                    {if $score}
+                    <span name="score" type="text" value="">分数：<span style="color:red">{$score}</span></span>
+                    {/if}
+                    {if $type==1}
+                    <button class="btn my-btn2 blue" data-sttid="{$sttid}" data-taskid="{$taskid}" onclick="endtask($(this))"><span
+                            style="color:#888888">(先保存后提交)</span>提交作业</button>
+                    {/if}
+                </div>
+
+            </div>
+
+            {loop $tasklist $i $item}
+            <div class="row hw-item">
+                <div class="col-md-7">
+                    <div class="q-title" style="padding:1em;border-radius: 8px;background-color: #e5ffe5;">
+                        作业{php echo $i+1}. {php echo strtr($item['problem'], $trans);}
+                    </div>
+                    {if ($type==2 || $type==3 || $type==4 )&&$item['textanswer']!=null }
+                    <div class="ans-area" style="padding:1em;border-radius: 8px;background-color: #e5f7ff;text-align: left;border: 0;">
+                        <span style="color:red;">我的回答</span>
+                        {php echo strtr($item['textanswer'], $trans);}
+                    </div>
+                    {/if}
+                    <!-- 状态为 为提交 可以提交 -->
+                    {if $type== 1}
+                    <div style="width:100%;text-align: left; "> <span style="margin-left: 2%">请在此作答 ↓ </span></div>
+
+                    <div>
+                        <!-- <textarea name="editor{php echo ($i+1)}">{$item['textanswer']}</textarea> -->
+                        <script id="editor{php echo ($i+1)}" name="editor{php echo ($i+1)}" type="text/plain">{php echo strtr($item['textanswer'], $trans);}</script>
+                    </div>
+                    <button style="width:80%;" class="btn green saveit" data-i="{php echo ($i+1)}" data-tdid="{$item['tdid']}"
+                        data-itid="{$item['id']}" onclick="saveit($(this))">保存</button>
+                    {/if}
+                </div>
+                <div class="col-md-5">
+                    <!-- 状态为 老师一批复 -->
+                    {if $type == 4}
+                    {if $item['textexamine']!=null}
+                    <span style="color:red;float: left;">我的批语</span>
+                    <div class="comments col row">
+                        <div style="padding:1em;border-radius: 8px;background-color: #ffe5f0;">
+                            {php echo strtr($item['textexamine'], $trans);}
+                        </div>
+                    </div>
+                    {/if}
+                    {/if}
+                </div>
+            </div>
+            {/loop}
+
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+<!-- <script src="../addons/maixun_pte/template/mobile/js/recorder.js"></script>
+<script src="https://cdn.ckeditor.com/4.11.1/standard/ckeditor.js"></script> -->
+<script src="/addons/maixun_pte/template/mobile/js/ueditor/ueditor.config.js"></script>
+<script src="/addons/maixun_pte/template/mobile/js/ueditor/ueditor.all.js"></script>
+<script src="/addons/maixun_pte/template/mobile/js/ueditor/ueditor.voice.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#s_myhomework").addClass('active');
+        $('a').each(function () {
+            var aclass = $(this).attr('class');
+            if (!aclass) {
+                $(this).attr("target", "_blank");
+            }
+        })
+    });
+
+</script>
+<script>
+    var tasklist = {php echo json_encode($tasklist)};
+    console.log(tasklist.length);
+    var type = {$type};
+    var editors = {};
+    var count = tasklist ? (tasklist.length + 1) : 2;
+    if (type == 1) {
+        if (tasklist) {
+            for (var i = 0; i < tasklist.length; i++) {
+                // CKEDITOR.replace('editor' + (i + 1));           
+                eval("editors.editor" + (i + 1) + " = UE.getEditor('editor" + (i + 1) + "')");
+
+            }
+        }
+        console.log(tasklist.length);
+    }
+
+    function saveit(e) {
+        var taskid = {$taskid};
+        var i = e.data('i');
+        var itemid = e.data('itid');
+        var tdid = e.data('tdid');
+        var type = 'text';
+        eval("var data = editors.editor" + i + ".getContent()");
+        console.log(data);
+        $.ajax({
+            type: "POST",
+            url: "{php echo $this->createMobileUrl('s_commit', array('op'=>'corrections'))}",  //同目录下的php文件
+            data: { 'taskid': taskid, 'itemid': itemid, 'tdid': tdid, 'type': type, 'text': data },
+            dataType: "json", //声明成功使用json数据类型回调
+            //如果传递的是FormData数据类型，那么下来的三个参数是必须的，否则会报错
+            cache: false,  //默认是true，但是一般不做缓存
+            success: function (msg) {  //请求成功后的回调函数
+                console.log(msg);
+                if (msg.code == 200) {
+                    layer.open({
+                        content: msg.msg
+                        , skin: 'msg'
+                        , time: 2
+                        , shadeClose: false
+                    });
+                } else if (msg.code == 201) {
+                    layer.open({
+                        content: msg.msg
+                        , skin: 'msg'
+                        , time: 2
+                        , shadeClose: false
+                    });
+                } else if (msg.act == 'redirect') {
+                    layer.open({
+                        content: "长时间未操作，请重新登录！",
+                        btn: ['确定'],
+                        yes: function (index) {
+                            window.location.reload()
+                        }
+                    });
+                }
+            }
+        });
+        console.log("i" + i);
+        console.log('itemid:' + itemid);
+    }
+</script>
+
+
+
+<script type="text/javascript">
+    //图片放大
+    $("#outerdiv").hide();
+    $(function () {
+        $("img").mouseover(function () {
+            if ($(this).attr('class') != 'sys') {
+                $(this).css("cursor", "pointer");
+            }
+        });
+        $("img").click(function () {
+            var _this = $(this); //将当前的pimg元素作为_this传入函数
+            if ($(this).attr('class') != 'sys') {
+                imgShow("#outerdiv", "#bigimg", _this);
+            }
+        });
+    });
+
+    function imgShow(outerdiv, bigimg, _this) {
+        var src = _this.attr("src"); //获取当前点击的pimg元素中的src属性
+        var height = _this.css('height');
+        console.log(height);
+        $('#outerdiv').attr('display', 'block');
+        $(bigimg).attr("src", src); //设置#bigimg元素的src属性
+        $(outerdiv).fadeIn("fast");
+
+        $(outerdiv).click(function () { //再次点击淡出消失弹出层
+            $(this).fadeOut("fast");
+        });
+    }
+
+    function subtext(e) {
+        var itemid = e.data('itemid');
+        var tdid = e.data('tdid');
+        var type = e.data('type');
+        if (type == 'text') {
+            $('#text_item_id').val(itemid);
+            $('#text_item_tdid').val(tdid);
+        }
+        if (type == 'image') {
+            $('#image_item_id').val(itemid);
+            $('#image_item_tdid').val(tdid);
+
+        }
+        if (type == 'voice') {
+            $('#voice_item_id').val(itemid);
+            $('#voice_item_tdid').val(tdid);
+        }
+        if (type == 'file') {
+            $('#file_item_id').val(itemid);
+            $('#file_item_tdid').val(tdid);
+        }
+
+    }
+
+    function submit(e) {
+        var id = e.data('id');
+        var taskid = e.data('taskid');
+        var studentid = e.data('studentid');
+        var sttid = e.data('id');
+        var type = e.data('type');
+
+        console.log(type);
+        var formData = new FormData();
+        formData.append('id', id);
+        formData.append('taskid', taskid);
+        formData.append('studentid', studentid);
+        formData.append('type', type);
+        formData.append('sttid', sttid);
+        if (type == 'text') {
+            var text = $("#subtext").val()
+            var itemid = $("#text_item_id").val()
+            var tdid = $("#text_item_tdid").val()
+            formData.append('text', text);
+            formData.append('itemid', itemid);
+            formData.append('tdid', tdid);
+        }
+        if (type == 'image') {
+            var file = document.getElementById('filea').files[0]; //获取文件路径名，注意了没有files[1]这回事，已经试过坑
+            var itemid = $("#image_item_id").val()
+            var tdid = $("#image_item_tdid").val()
+            formData.append('file', file);
+            formData.append('itemid', itemid);
+            formData.append('tdid', tdid);
+        }
+        if (type == 'file') {
+
+            var file = document.getElementById('filen').files[0]; //获取文件路径名，注意了没有files[1]这回事，已经试过坑
+            var itemid = $("#file_item_id").val()
+            var tdid = $("#file_item_tdid").val()
+            formData.append('file', file);
+            formData.append('itemid', itemid);
+            formData.append('tdid', tdid);
+        }
+        if (type == 'voice') {
+            var itemid = $("#voice_item_id").val()
+            var tdid = $("#voice_item_tdid").val()
+            formData.append('itemid', itemid);
+            formData.append('tdid', tdid);
+            Recorder.upload({
+                method: "POST",
+                url: "{php echo $this->createMobileUrl('s_commit', array('op'=>'corrections','type'=>'voice'))}&t=" + Math.random() * 100000,
+                audioParam: formData,
+                params: {
+                    "_method": "PUT"
+                },
+                success: function (responseText) {
+                    console.log(msg);
+                    if (msg.code == 200) {
+                        layer.open({
+                            content: msg.msg
+                            , skin: 'msg'
+                            , time: 2
+                            , shadeClose: false
+                        });
+                        setTimeout(function () {
+                            window.location.href = "{php echo $this->createMobileUrl('s_commit',array('type'=>$type,'sttid'=>$sttid,'taskid'=>$taskid,'studentid'=>$studentid))}";
+                        }, 2000)
+
+                    } else {
+                        layer.open({
+                            content: msg.msg
+                            , skin: 'msg'
+                            , time: 2
+                            , shadeClose: false
+                        });
+                    }
+                },
+            });
+
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "{php echo $this->createMobileUrl('s_commit', array('op'=>'corrections'))}",  //同目录下的php文件
+                data: formData,
+                dataType: "json", //声明成功使用json数据类型回调
+                //如果传递的是FormData数据类型，那么下来的三个参数是必须的，否则会报错
+                cache: false,  //默认是true，但是一般不做缓存
+                processData: false, //用于对data参数进行序列化处理，这里必须false；如果是true，就会将FormData转换为String类型
+                contentType: false,  //一些文件上传http协议的关系，自行百度，如果上传的有文件，那么只能设置为false
+                success: function (msg) {  //请求成功后的回调函数
+                    console.log(msg);
+                    if (msg.code == 200) {
+                        layer.open({
+                            content: msg.msg
+                            , skin: 'msg'
+                            , time: 2
+                            , shadeClose: false
+                        });
+                        setTimeout(function () {
+                            window.location.href = "{php echo $this->createMobileUrl('s_commit',array('type'=>$type,'sttid'=>$sttid,'taskid'=>$taskid,'studentid'=>$studentid))}";
+                        }, 2000)
+
+                    } else {
+                        layer.open({
+                            content: msg.msg
+                            , skin: 'msg'
+                            , time: 2
+                            , shadeClose: false
+                        });
+                    }
+                }
+            });
+        }
+
+        //console.log(formData.get('taskid'));
+    }
+    //文件上传
+    $("#file1").on("change", "#filea", function () {
+        var path = $(this).val();
+        var arr = path.split('\\');
+        console.log(arr);
+        var fileName = arr[arr.length - 1];
+        $(".show-file1").html(fileName);
+    });
+
+    //文件上传
+    $("#file2").on("change", "#fileb", function () {
+        var path = $(this).val();
+        var arr = path.split('\\');
+        console.log(arr);
+        var fileName = arr[arr.length - 1];
+        $(".show-file2").html(fileName);
+    });
+    //文件上传
+    $("#filel").on("change", "#filen", function () {
+        var path = $(this).val();
+        var arr = path.split('\\');
+        console.log(arr);
+        var fileName = arr[arr.length - 1];
+        $(".show-file3").html(fileName);
+    });
+    function endtask(e) {
+        var sttid = e.data('sttid')
+        var taskid = e.data('taskid')
+        //alert('sttid:'+id);
+        $.ajax({
+            type: 'POST',
+            url: "{php echo $this->createMobileUrl('s_commit',array('op'=>'endstatus'))}",
+            data: { 'taskid': taskid },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data.code == 200) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "{php echo $this->createMobileUrl('s_commit',array('op'=>'end'))}",
+                        data: { 'sttid': sttid },
+                        dataType: "json",
+                        async: false,
+                        success: function (data) {
+                            if (data.code == 200) {
+                                layer.open({
+                                    content: data.msg
+                                    , skin: 'msg'
+                                    , time: 2
+                                    , shadeClose: false
+                                });
+                                setTimeout(function () {
+                                    window.location.href = "{php echo $this->createMobileUrl('s_myhomework')}";
+                                }, 2000)
+
+                            }
+                        },
+                    });
+                } else {
+                    layer.open({
+                        content: data.msg
+                        , skin: 'msg'
+                        , time: 2
+                        , shadeClose: false
+                    });
+                }
+            },
+        });
+    }
+    function returnpage() {
+        history.back();
+    }
+</script>
+{template 'student/footer'}

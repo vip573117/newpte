@@ -1,0 +1,152 @@
+﻿{template 'admin/header'}
+{template 'admin/slide'}
+<!-- 模态框 -->
+<div class="modal fade popup-pd" id="myModal1">
+    <div class="modal-dialog popup-wid">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title" style="margin:0 auto;">添加新科目</h4>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <form action="">
+                    <div class="form-group clearfix">
+                        <label for="name">名称:</label>
+                        <input type="text" class="form-control" id="name" name='name' placeholder="输入科目名称">
+                    </div>
+                </form>
+            </div>
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <div class="btn-group1">
+                    <button type="button" class="btn btn-secondary my-btn5 blue" data-dismiss="modal" style="margin-right:10%;"
+                        onclick="submit1()">确定</button>
+                    <button type="button" class="btn btn-secondary my-btn5 red" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 内容 -->
+<div class="container-wrap">
+    <div class="container-panel editor">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2 btn-wrap" data-toggle="modal" data-target="#myModal1">
+                    <img src="/addons/maixun_pte/template/mobile/img/add.png" alt="">
+                    <span>新增</span>
+                </div>
+                <!-- <div class="col-md-2 btn-wrap">
+                        <img src="/addons/maixun_pte/template/mobile/img/ban.png" alt="">
+                        <span>禁止</span>
+                    </div>
+                    <div class="col-md-2 btn-wrap">
+                        <img src="/addons/maixun_pte/template/mobile/img/finish.png" alt="">
+                        <span>启用</span>
+                    </div> -->
+            </div>
+        </div>
+    </div>
+    <div class="container-panel record">
+        <div class="container-fluid">
+            <div class="row chart-item">
+                <div class="col">科目名称</div>
+                <div class="col">状态</div>
+                <div class="col">操作</div>
+            </div>
+            {loop $subjectlist $item}
+            <div class="row chart-item">
+                <div class="col">{$item['title']}</div>
+                <div class="col">{php echo $item['status']==1?'启用':'禁用'}</div>
+                <div class="col">
+                    <button class="btn my-btn red"  data-id="{$item['id']}" data-type="{$item['status']}" onclick="gostatus($(this))">删除</button>
+                </div>
+            </div>
+            {/loop}
+        </div>
+    </div>
+    {$pager}
+    <!-- <ul class="pagination">
+        <li class="page-item"><a class="page-link page-pull" href="#">上一页</a></li>
+        <li class="page-item active"><a class="page-link page-num" href="#">1</a></li>
+        <li class="page-item"><a class="page-num page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link page-num" href="#">3</a></li>
+        <li class="page-item"><a class="page-link page-pull page-ban" href="#">下一页</a></li>
+    </ul> -->
+</div>
+<script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+      function submit1() {
+        var name = $(" input[ name='name' ] ").val()
+      //  alert( name );
+        $.ajax({
+            type: 'POST',
+            url: "{php echo $this->createMobileUrl('a_object',array('op'=>'add'))}",
+            data: { 'name': name},
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data.code == 200) {
+                    layer.open({
+                        content: data.msg
+                        , skin: 'msg'
+                        , time: 2
+                        , shadeClose: false
+                    });
+                    $("input[ name='name' ] ").attr("value", '');
+                    setTimeout(function () {
+                        window.location.href = "{php echo $this->createMobileUrl('a_object')}";
+                    }, 2000)
+                }else{
+                    layer.open({
+                        content: data.msg
+                        , skin: 'msg'
+                        , time: 2
+                        , shadeClose: false
+                    });
+                    $("input[ name='name' ] ").attr("value", '');
+                }
+            },
+        });
+    }
+
+    function gostatus(e) {
+        var id = e.data('id')
+        //alert('id：' + id + "  type:" + type + "  typeid" + typeid);
+        $.ajax({
+            type: 'POST',
+            url: "{php echo $this->createMobileUrl('a_object',array('op'=>'status'))}",
+            data: { 'id': id },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data.code == 200) {
+                    layer.open({
+                        content: data.msg
+                        , skin: 'msg'
+                        , time: 2
+                        , shadeClose: false
+                    });
+                    setTimeout(function () {
+                        window.location.href = "{php echo $this->createMobileUrl('a_object')}";
+                    }, 2000)
+
+                }else{
+                    layer.open({
+                        content: data.msg
+                        , skin: 'msg'
+                        , time: 2
+                        , shadeClose: false
+                    });
+                }
+            },
+        });
+    }
+
+  $(document).ready(function () {
+        $("#a_object").addClass('active');
+    });
+
+</script>
+{template 'admin/footer'}

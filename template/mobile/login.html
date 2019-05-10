@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登录</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/addons/maixun_pte/template/mobile/css/style.css">
+    <link rel="stylesheet" href="/addons/maixun_pte/template/mobile/css/main.css">
+    <style>
+        html,body{
+            width: 100%;
+            height: 100%;
+        }
+        body{
+            margin: 0;
+            background-image:url(/img/login-bg.jpg);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .form-group{
+            position: relative;
+        }
+        .form-control{
+            padding-left: 40px;
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h4 class="login-title">深大课堂管理系统</h4>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-md-5">
+                <div class="triangle"></div>
+                <div class="out-bg">
+                    <div class="login">
+                        <h6 class="login-name">登录账户</h6>
+                        <form>
+                            <div class="form-group">
+                                <input type="input" class="form-control" id="name" placeholder="用户名">
+                                <img class="form-icon" src="/addons/maixun_pte/template/mobile/img/user.png" alt="user">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" id="pwd" placeholder="密码">
+                                <img class="form-icon" src="/addons/maixun_pte/template/mobile/img/pwd.png" alt="pwd">
+                            </div>
+                            <div class="form-group">
+                                <input type="input" style="width:56%;" class="form-control" id="verify" placeholder="验证码">
+                                <img class="form-icon" src="/addons/maixun_pte/template/mobile/img/img.png" alt="img">
+                                <img class="form-icon1" src="/addons/maixun_pte/template/mobile/img/v.png" alt="">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary login-btn">登录</button>
+                                <label class="check-label" for="form-check-input">
+                                    <input class="form-check-input login-check" type="checkbox">
+                                    <span>一周内自动登录</span>
+                                </label>
+                                <a class="fog-psd" href="javascript:void(0)">忘记密码？</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script src="/addons/maixun_pte/template/mobile/js/main.js"></script>
+
+</html>

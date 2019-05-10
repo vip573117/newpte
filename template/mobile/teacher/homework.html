@@ -1,0 +1,184 @@
+{template 'teacher/header'}
+{template 'teacher/slide'}
+<!-- 内容 -->
+<div class="container-wrap">
+    <div class="container-panel editor">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2 btn-wrap" style="height: 70%;">
+                    <a href="{php echo $this->createMobileUrl('t_newtask')}"><img src="/addons/maixun_pte/template/mobile/img/add.png"
+                            alt="">
+                    </a><span>新增</span>
+                </div>
+                <form action="" method="GET">
+                    <div class="row chart-item " style="width: 100%;margin-left:60%;border-bottom: 0;" >
+                        <div class="form-group" style="width:600px">
+                            <input type="hidden" name="i" value="4">
+                            <input type="hidden" name="c" value="entry">
+                            <input type="hidden" name="do" value="t_task">
+                            <input type="hidden" name="m" value="maixun_pte">
+                            <span class="input-icon ">
+                                <input type="text" class="form-control input-sm" name="keyword" value="">
+                                <i class="glyphicon glyphicon-search blue"></i>
+                            </span>
+                            <input class="btn  green" name="submit" type="submit" style="margin-left:20px;width: 20%;color:#fff;margin-top: 0px"
+                                value="搜索">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="container-panel record">
+        <div class="container-fluid">
+            <!-- <div class="row chart-item text-center">
+                <div class="col">
+                    <span>作业列表</span>
+                </div>
+            </div> -->
+            <div class="row chart-item">
+                <div class="col">标题</div>
+                <div class="col">提交作业时间</div>
+                <div class="col">作业预览</div>
+                <div class="col">查看</div>
+            </div>
+            {loop $tasklist $item}
+            <div class="row chart-item">
+                <div class="col">{php echo date('Y-m-d ',$item['titletime'])}-{$item['title']}-作业</div>
+                <div class="col">{php echo date('Y-m-d H:i',$item['deadline'])}</div>
+
+                <div class="col"><a href="{php echo $this->createMobileUrl('t_task', array('id'=>$item['id'],'op'=>'selecttask'))}">
+                    <span class="btn my-btn1 green" >预览作业</span>
+                </a></div>
+
+                <div class="col">
+                    {if $item['deadline'] > time()}
+                    <button class="btn my-btn1 blue" data-id="{$item['id']}" data-type="1" style="display:{php echo $item['status']==0?'inline-block':'none'}"
+                        onclick="gostatus($(this))">发布</button>
+                    <a href="{php echo $this->createMobileUrl('t_taskdateil', array('id'=>$item['id'],'title'=>date('Y-m-d',$item['titletime']).'-'.$item['title'].'-作业','deadline'=>date('Y-m-d h:i',$item['deadline'])))}">
+                        <button class="btn my-btn1 blue" style="display:{php echo $item['status']==1||$item['status']==2?'inline-block':'none'}">提交详情</button>
+                    </a>
+                    <a href="{php echo $this->createMobileUrl('t_newtask', array('id'=>$item['id']))}">
+                        <button class="btn my-btn1 green" style="display:{php echo $item['status']==0?'inline-block':'none'}"
+                            onclick='edit({php echo json_encode($item);})'>编辑</button>
+                    </a>
+                    <button class="btn my-btn1 red" data-id="{$item['id']}" data-type="2" style="display:{php echo $item['status']==1?'inline-block':'none'}"
+                        onclick="gostatus($(this))">截止</button>
+                    {/if}
+                    {if $item['deadline'] <= time()}
+                     <a href="{php echo $this->createMobileUrl('t_taskdateil', array('id'=>$item['id'],'title'=>date('Y-m-d',$item['titletime']).'-'.$item['title'].'-作业','deadline'=>date('Y-m-d H:i',$item['deadline'])))}">
+                         <button class="btn my-btn1 blue" style="display:{php echo $item['status']==1 || $item['status']==2?'inline-block':'none'}">提交详情</button></a>
+                    <a href="{php echo $this->createMobileUrl('t_newtask', array('id'=>$item['id']))}">
+                            <button class="btn my-btn1 green" style="display:{php echo $item['status']==0?'inline-block':'none'}"
+                                onclick='edit({php echo json_encode($item);})'>编辑</button>
+                    </a>
+                    {/if}
+                </div>
+            </div>
+            {/loop}
+        </div>
+    </div>
+    {$pager}
+    <!-- <ul class="pagination">  /addons/maixun_pte/template/mobile/img/logo.png
+        <li class="page-item"><a class="page-link page-pull" href="#">上一页</a></li>
+        <li class="page-item active"><a class="page-link page-num" href="#">1</a></li>
+        <li class="page-item"><a class="page-num page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link page-num" href="#">3</a></li>
+        <li class="page-item"><a class="page-link page-pull page-ban" href="#">下一页</a></li>
+    </ul> -->
+</div>
+<script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+    function submit() {
+        var schoolid = $("#names").val();
+        var id = $("input[ name='id' ] ").val()
+        var name = $(" input[ name='name' ] ").val()
+        var tel = $(" input[ name='tel' ] ").val()
+        var email = $(" input[ name='email' ] ").val()
+        var userid = $(" input[ name='userid' ] ").val()
+        //alert(schoolid + '  ' + id + '  ' + name + '  ' + tel + '  ' + email+ '  ' + userid);
+        $.ajax({
+            type: 'POST',
+            url: "{php echo $this->createMobileUrl('t_task',array('op'=>'add'))}",
+            data: { 'schoolid': schoolid, 'id': id, 'name': name, 'tel': tel, 'email': email, 'userid': userid },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data.code == 200) {
+                    layer.open({
+                        content: data.msg
+                        , skin: 'msg'
+                        , time: 2
+                        , shadeClose: false
+                    });
+                    $("input[ name='id' ] ").attr("value", '');
+                    $("input[ name='name' ] ").attr("value", '');
+                    $("input[ name='tel' ] ").attr("value", '');
+                    $("input[ name='email' ] ").attr("value", '');
+                    $("input[ name='userid' ] ").attr("value", '');
+                    setTimeout(function () {
+                        window.location.href = "{php echo $this->createMobileUrl('t_task')}";
+                    }, 2000)
+                } else {
+                    layer.open({
+                        content: data.msg
+                        , skin: 'msg'
+                        , time: 2
+                        , shadeClose: false
+                    });
+                    $("input[ name='id' ] ").attr("value", '');
+                    $("input[ name='name' ] ").attr("value", '');
+                    $("input[ name='tel' ] ").attr("value", '');
+                    $("input[ name='email' ] ").attr("value", '');
+                    $("input[ name='userid' ] ").attr("value", '');
+                }
+            },
+        });
+    }
+
+    function edit(e) {
+        var info = e
+        $("#names  option[value=" + info.schoolid + "] ").attr("selected", true)
+        $("input[ name='id' ] ").attr("value", info.id);
+        $("input[ name='name' ] ").attr("value", info.name);
+        $("input[ name='tel' ] ").attr("value", info.phone);
+        $("input[ name='email' ] ").attr("value", info.Email);
+        $("input[ name='userid' ] ").attr("value", info.userid);
+
+    }
+    function gostatus(e) {
+        var id = e.data('id')
+        var type = e.data('type')
+        //alert('id：' + id + "  type:" + type );
+        $.ajax({
+            type: 'POST',
+            url: "{php echo $this->createMobileUrl('t_task',array('op'=>'status'))}",
+            data: { 'id': id, 'type': type },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data.code == 200) {
+                    layer.open({
+                        content: data.msg
+                        , skin: 'msg'
+                        , time: 2
+                        , shadeClose: false
+                    });
+                    setTimeout(function () {
+                        window.location.href = "{php echo $this->createMobileUrl('t_task')}";
+                    }, 2000)
+
+                }
+            },
+        });
+    }
+
+    $(document).ready(function(){
+        $("#t_task").addClass('active');
+    });
+</script>
+{template 'teacher/footer'}

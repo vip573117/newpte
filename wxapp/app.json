@@ -1,0 +1,12 @@
+{
+    "pages": [
+        "we7/pages/index/index",
+        "we7/pages/user/index/index"
+    ],
+    "window": {
+        "navigationBarTextStyle": "white",
+        "navigationBarTitleText": "微擎",
+        "navigationBarBackgroundColor": "#1ba9ba",
+        "backgroundColor": "#1ba9ba"
+    }
+}

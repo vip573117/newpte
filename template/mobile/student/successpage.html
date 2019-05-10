@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>pte</title>
+    <meta name="viewport" content="width=750, user-scalable=no" />
+    <style>
+        .btudiv{
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            vertical-align: middle; 
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form">
+        <div class="box">
+            {if !empty($resut)}
+            <div class="btudiv">
+                <span>绑定成功</span>
+                <span>{$openid}</span>
+                <button onclick="btu()">确定</button>
+            </div>
+
+            {/if}
+            {if empty($resut)}
+            <span>绑定失败</span>
+            {/if}
+        </div>
+    </div>
+    <script type="text/javascript" src="/addons/maixun_pte/template/mobile/js/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="/addons/maixun_pte/template/mobile/js/main.js"></script>
+    <script src="/addons/maixun_pte/template/mobile/js/layer/layer.js"></script>
+    <script type="text/javascript">
+        // $(function () {
+        //     setTimeout(function () {
+        //         // window.location.href = "{php echo $this->createMobileUrl('t_task')}";
+        //         window.close();
+        //     }, 2000)
+        // });
+        function btu() {
+            WeixinJSBridge.invoke('closeWindow', {}, function (res) {
+                //alert(res.err_msg);
+
+            });
+        }
+
+
+    </script>
+</body>
+
+</html>

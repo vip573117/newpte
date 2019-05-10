@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.we7.cc" versionCode="">
+	<application setting="true">
+		<name><![CDATA[pte考试系统]]></name>
+		<identifie><![CDATA[maixun_pte]]></identifie>
+		<version><![CDATA[1.0.3]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[pte考试系统]]></ability>
+		<description><![CDATA[麦迅网络开发]]></description>
+		<author><![CDATA[QQ:500784]]></author>
+		<url><![CDATA[]]></url>
+	</application>
+	<platform>
+		<subscribes>
+			<message type="text" />
+			<message type="image" />
+			<message type="voice" />
+			<message type="video" />
+			<message type="link" />
+			<message type="location" />
+			<message type="shortvideo" />
+			<message type="subscribe" />
+			<message type="unsubscribe" />
+			<message type="qr" />
+			<message type="trace" />
+			<message type="click" />
+			<message type="view" />
+			<message type="merchant_order" />
+			<message type="user_get_card" />
+			<message type="user_del_card" />
+			<message type="user_consume_card" />
+		</subscribes>
+		<handles>
+			<message type="text" />
+			<message type="image" />
+			<message type="voice" />
+			<message type="video" />
+			<message type="shortvideo" />
+			<message type="location" />
+			<message type="link" />
+			<message type="subscribe" />
+			<message type="qr" />
+			<message type="trace" />
+			<message type="click" />
+			<message type="merchant_order" />
+			<message type="user_get_card" />
+			<message type="user_del_card" />
+			<message type="user_consume_card" />
+		</handles>
+		<rule embed="true" />
+		<card embed="true" />
+		<supports>
+			<item type="app" />
+			<item type="wxapp" />
+			<item type="webapp" />
+			<item type="system_welcome" />
+			<item type="android" />
+			<item type="ios" />
+		</supports>
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="功能封面" do="mfuncover" state="" direct="false" />
+		</cover>
+		<rule>
+			<entry title="规则列表显示的操作" do="rule" state="" direct="false" />
+		</rule>
+		<menu>
+		</menu>
+		<home>
+			<entry title="首页导航" do="homenav" state="" direct="false" />
+		</home>
+		<profile>
+			<entry title="个人中心导航" do="pernav" state="" direct="false" />
+		</profile>
+		<shortcut>
+			<entry title="快捷功能" do="quicknav" state="" direct="false" />
+		</shortcut>
+		<function>
+			<entry title="独立功能" do="infun" state="" direct="false" />
+		</function>
+		<page>
+			<entry title="index" do="/maixun_demo/pages/index/index" state="" direct="" />
+		</page>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>

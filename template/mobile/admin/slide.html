@@ -1,0 +1,168 @@
+<!-- <aside class="slide-bg">
+    <nav class="fa-nav">
+        <li class="nav-item">
+            <a class="item-word" href="{php echo $this->createMobileUrl('a_index', array('id'=>$id))}">
+                <img src="/addons/maixun_pte/template/mobile/img/icon1.png" alt="">
+                <span>管理员管理</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="item-word1" href="{php echo $this->createMobileUrl('a_campus', array('id'=>$id))}">校区管理</a>
+        </li>
+        <li class="nav-item">
+            <a class="item-word1" href="{php echo $this->createMobileUrl('a_class', array('id'=>$id))}">班级管理</a>
+        </li>
+        <li class="nav-item">
+            <a class="item-word1" href="{php echo $this->createMobileUrl('a_teacher', array('id'=>$id))}">老师管理</a>
+        </li>
+        <li class="nav-item">
+            <a class="item-word1" href="{php echo $this->createMobileUrl('a_object', array('id'=>$id))}">科目管理</a>
+        </li>
+        <li class="nav-item active">
+            <a class="item-word" href="#">
+                <img src="/addons/maixun_pte/template/mobile/img/icon2.png" data-img="2" alt="">
+                <span>老师管理</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="item-word1" href="#">
+                <span>作业列表</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="item-word1" href="#">
+                <span>新增作业</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="item-word" href="#">
+                <img src="/addons/maixun_pte/template/mobile/img/icon3.png" data-img="3" alt="">
+                <span>学生管理</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="item-word1" href="#">
+                <span>我的作业</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="item-word1" href="#">
+                <span>查看评语</span>
+            </a>
+        </li>
+    </nav>
+</aside> -->
+
+<aside class="slide-bg">
+    <nav class="fa-nav">
+        <li class="nav-item" id="a_index">
+            <a class="item-word" href="{php echo $this->createMobileUrl('a_index', array('id'=>$id))}">
+                <div class="icon icon1"></div>
+                <span>管理员管理</span>
+            </a>
+        </li>
+        <li class="nav-item" id="a_campus">
+            <a class="item-word1" href="{php echo $this->createMobileUrl('a_campus', array('id'=>$id))}">
+                <span>校区管理</span>
+            </a>
+        </li>
+        <li class="nav-item" id="a_class">
+            <a class="item-word1" href="{php echo $this->createMobileUrl('a_class', array('id'=>$id))}">
+                <span>班级管理</span>
+            </a>
+        </li>
+        <li class="nav-item" id="a_teacher">
+            <a class="item-word1" href="{php echo $this->createMobileUrl('a_teacher', array('id'=>$id))}">
+                <span>老师管理</span>
+            </a>
+        </li>
+        <li class="nav-item" id="a_object">
+            <a class="item-word1" href="{php echo $this->createMobileUrl('a_object', array('id'=>$id))}">
+                <span>科目管理</span>
+            </a>
+        </li>
+        <li class="nav-item" id="a_clickadmin">
+            <a class="item-word1" href="{php echo $this->createMobileUrl('a_clickadmin', array('id'=>$id))}">
+                <span>打卡管理</span>
+            </a>
+        </li>
+        <li class="nav-item" id="a_signadmin">
+            <a class="item-word1" href="{php echo $this->createMobileUrl('a_signadmin', array('id'=>$id))}">
+                <span>补卡管理</span>
+            </a>
+        </li>
+        <li class="nav-item" id="a_leaveadmin">
+            <a class="item-word1" href="{php echo $this->createMobileUrl('a_leaveadmin', array('id'=>$id))}">
+                <span>请假管理</span>
+            </a>
+        </li>
+        <li class="nav-item" id="a_groundadmin">
+            <a class="item-word1" href="{php echo $this->createMobileUrl('a_groundadmin', array('id'=>$id))}">
+                <span>考场管理</span>
+            </a>
+        </li>
+        <li class="nav-item" id="a_examinationadmin">
+            <a class="item-word1" href="{php echo $this->createMobileUrl('a_examinationadmin', array('id'=>$id))}">
+                <span>考试管理</span>
+            </a>
+        </li>
+        <li class="nav-item" id="a_courseadmin">
+            <a class="item-word1" href="{php echo $this->createMobileUrl('a_courseadmin', array('id'=>$id))}">
+                <span>课程管理</span>
+            </a>
+        </li>
+        <li class="nav-item" id="a_timeadmin">
+            <a class="item-word1" href="{php echo $this->createMobileUrl('a_timeadmin')}">
+                <span>课程时间</span>
+            </a>
+        </li>
+        <li class="nav-item" id="a_signtime">
+            <a class="item-word1" href="{php echo $this->createMobileUrl('a_signtime')}">
+                <span>考勤时间管理</span>
+            </a>
+        </li>
+        <li class="nav-item" id="a_approval">
+            <a class="item-word1" href="{php echo $this->createMobileUrl('a_approval')}">
+                <span>审批人管理</span>
+            </a>
+        </li>
+        <li class="nav-item" id="a_copyadmin">
+            <a class="item-word1" href="{php echo $this->createMobileUrl('a_copyadmin')}">
+                <span>抄送人管理</span>
+            </a>
+        </li>
+
+        <!-- <li class="nav-item active">
+            <a class="item-word" href="#">
+                <div class="icon icon2"></div>
+                <span>老师管理</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="item-word1" href="#">
+                <span>作业列表</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="item-word1" href="#">
+                <span>新增作业</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="item-word" href="#">
+                <div class="icon icon3"></div>
+                <span>学生管理</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="item-word1" href="#">
+                <span>我的作业</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="item-word1" href="#">
+                <span>查看评语</span>
+            </a>
+        </li> -->
+    </nav>
+</aside>

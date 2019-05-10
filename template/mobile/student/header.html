@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{$pagetitle}</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/addons/maixun_pte/template/mobile/css/style.css">
+    <link rel="stylesheet" href="/addons/maixun_pte/template/mobile/css/main.css">
+</head>
+<style>
+        .pagination li a{
+            background-color: transparent;
+            color: #b79659;
+            border: 1px solid transparent;
+            padding: 0.5em 0.8em;
+        }
+    
+        .pagination li.active a{
+            background-color:#b79659;
+            color: #fff;
+        }
+    
+        .pagination .pager-nav,.pagination .pager-nav{
+            background-color: #122953;
+        color: #fff;
+        }
+        .word{
+            color: #c0a165;
+            font-size: 1rem;
+            line-height: 42px;
+            vertical-align: middle;
+            cursor:pointer;
+        }
+        .word1{
+            color: #c0a165;
+            font-size: 1rem;
+            line-height: 42px;
+            vertical-align: middle;
+            margin-right:2%;
+        }
+         .word2{
+            color: #c0a165;
+            font-size: 1rem;
+            line-height: 42px;
+            vertical-align: middle;
+             cursor:pointer;
+        }
+        .qr{
+            width: 13%;
+            position: absolute;
+            padding: 1% 1%;
+            top: 87%;
+            right: 17%;
+            z-index: 2;
+            background-color: #fff;
+            text-align:center;
+            display:none;
+            cursor:pointer;
+        }
+        .qr img{
+            width:100%;
+            margin:0;
+        }
+        
+        .my-avator{
+            margin-right:2%;
+            border-radius:100%;
+            width:14%;
+            vertical-align: middle;
+        }
+    </style>
+    <!-- 模态框 -->
+<div class="modal fade popup-pd" id="myModal">
+        <div class="modal-dialog popup-wid">
+            <div class="modal-content">
+                <!-- 模态框头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title" style="margin:0 auto;">修改密码</h4>
+                </div>
+                <!-- 模态框主体 -->
+                <div class="modal-body">
+                    <div class="form-group clearfix">
+                        <label for="names">原密码:</label>
+                        <input type="password" class="form-control" name="password" placeholder="输入原密码">
+                    </div>
+                    <div class="form-group clearfix">
+                        <label for="name">新密码:</label>
+                        <input type="password" class="form-control" name="newpassword" placeholder="输入新密码">
+                    </div>
+                    <div class="form-group clearfix">
+                        <label for="name">重复密码:</label>
+                        <input type="password" class="form-control" name="new2password" placeholder="重复新密码">
+                    </div>
+                </div>
+                <!-- 模态框底部 -->
+                <div class="modal-footer">
+                    <div class="btn-group1">
+                        <button type="button" class="btn btn-secondary my-btn5 blue" data-dismiss="modal" onclick="submit()"
+                            style="margin-right:10%;">确定</button>
+                        <button type="button" class="btn btn-secondary my-btn5 red" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+<body class="clearfix">
+    <!-- 顶部 -->
+    <header>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-3">
+                        <img src="/addons/maixun_pte/template/mobile/img/logo.png" alt="logo">
+                        <span class="title">作业管理系统</span>
+                    </div>
+                    <div class="col"></div>
+                    <div class="col-md-6 text-right" style="position:relative">
+                        <div class="qr">
+                            <img src="{php echo $this->user['url']}" onclick="clPopUp('.qr')">
+                            <span>扫码绑定</span>
+                        </div>
+    
+                        <div id="dj_div" style="display:inline-block">
+                            <span class="word" onclick="popUp('.qr')">点击绑定微信</span>
+                        </div>
+    
+                        <div id="zs_div" style="display:inline-block">
+                            <img class="my-avator" src="{php echo $this->user['handurl']}" alt="exit">-->
+                            <span class="word1">{php echo $this->user['nickname']}</span>
+                            <span class="word2" onclick="butbingding()">取消绑定</span>
+                        </div>
+    
+                        <span class="title" style="cursor:pointer;margin-left:4%;" alt="" data-toggle="modal" data-target="#myModal">{php echo $this->user['name']}</span>
+                        <img src="/addons/maixun_pte/template/mobile/img/manage.png" onclick="loginout()" alt="exit">
+                    </div>
+                </div>
+            </div>
+        </header>

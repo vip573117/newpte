@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>深大课程管理——课程作业</title>
+  <link rel="stylesheet" href="https://cdn.staticfile.org/jquery-weui/1.2.1/css/jquery-weui.min.css" />
+  <link rel="stylesheet" href="/addons/maixun_pte/template/mobile/css/mobilestyle.css" />
+</head>
+<style>
+  a {
+    text-decoration: none;
+    color: rgb(131, 130, 130);
+  }
+
+  .none {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    color: #666;
+    padding-top: 2vw;
+  }
+</style>
+
+<body>
+  <div class="container">
+    <!-- 顶部 -->
+    <div class="top">课程作业</div>
+    <!-- 内容 -->
+    <div class="contant">
+      <!-- 左侧栏 -->
+      <div class="left-tab">
+        <a href="{php echo $this->createMobileUrl('s_task',array('subject_id'=>0))}">
+          <div class="item {php echo $student_subject['id']==$subject_id?active:''}">全部作业</div>
+        </a>
+        {loop $student_subjects $student_subject}
+        <a href="{php echo $this->createMobileUrl('s_task',array('subject_id'=>$student_subject['id']))}">
+          <div class="item {php echo $student_subject['id']==$subject_id?active:''}">{$student_subject['title']}</div>
+        </a>
+        {/loop}
+      </div>
+      <!-- 作业内容 -->
+      <div class="right-zoom">
+        <!-- 科目一 -->
+        <div class="lesson1">
+          {if $task_list}
+          {loop $task_list $item}
+          <div class="item">
+            <div class="row justify">
+              <div class="lesson">{$item['title']}</div>
+              <div class="score"><span>{php echo $item['score']?$item['score'].'分':''}</span></div>
+              <div class="tag {php echo $item['student_status']==0?'error':($item['student_status']==1?'wait':'info')}">
+                <span>{php echo $item['student_status']==0?'未完成':($item['student_status']==1?'待完成':'已完成')}</span></div>
+            </div>
+            <div class="row">布置老师：<span>{$item['name']}</span></div>
+            <div class="row">发布时间：<span>{php echo date('Y-m-d H:i',$item['createtime'])}</span></div>
+            <div class="row">截止提交：<span>{php echo date('Y-m-d H:i',$item['deadline'])}</span></div>
+          </div>
+          {/loop}
+          {else}
+          <div class="none">暂无作业</div>
+          {/if}
+        </div>
+
+      </div>
+    </div>
+    <!-- 底部tab -->
+    <div class="tab color">
+      <a href="{php echo $this->createMobileUrl('s_sign')}">
+        <div class="item  " data-url="">
+          <img class="icon" src="/addons/maixun_pte/template/mobile/img/icon1b.png" alt="" />
+          <span>考勤</span>
+        </div>
+      </a>
+      <a href="{php echo $this->createMobileUrl('s_task')}">
+        <div class="item a-color">
+          <img class="icon" src="/addons/maixun_pte/template/mobile/img/icon2a.png" alt="" />
+          <span>课程</span>
+        </div>
+      </a>
+      <a href="{php echo $this->createMobileUrl('s_userinfo')}">
+        <div class="item">
+          <img class="icon" src="/addons/maixun_pte/template/mobile/img/icon3b.png" alt="" />
+          <span>我的</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</body>
+<script src="https://cdn.staticfile.org/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+<script src="/addons/maixun_pte/template/mobile/js/mobilemain.js"></script>
+
+</html>

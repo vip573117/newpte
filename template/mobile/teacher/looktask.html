@@ -1,0 +1,177 @@
+{template 'teacher/header'}
+{template 'teacher/slide'}
+<style>
+    .hw-item {
+        margin-bottom: 4em;
+    }
+
+    .q-title {
+        text-align: left;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+        font-size: 1.1em;
+        padding-bottom: 0.5em;
+    }
+    .q-title p{
+    word-break:normal;
+    white-space:pre-wrap;
+    word-wrap:break-word;
+    }
+
+    .q-ans {
+        color: #c0c0c0;
+        text-align: left;
+        width: 100%;
+        padding-left: 1.8em;
+        margin-top: 1em;
+    }
+
+    .q-pic {
+        margin-top: 1em;
+        text-align: left;
+        padding-left: 1.8em;
+    }
+
+    .q-pic img {
+        width: 25%;
+        margin-right: 3%;
+        margin-bottom: 1em;
+    }
+
+    .btn-group {
+        width: 100%;
+        margin-top: 1em;
+        text-align: left;
+        padding-left: 1.8em;
+    }
+
+    .comments {
+        text-align: left;
+    }
+
+    .co-title {
+        color: #6bccc9;
+        font-size: 1.2em;
+    }
+
+    .co-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1em;
+        border: 1px solid #6bccc9;
+        border-radius: 6px;
+        padding: 0.5em;
+        height: 83%;
+        color: #6bccc9;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .co-box img {
+        width: 80%;
+        display: block;
+    }
+
+    .file {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .file input {
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        right: 0;
+        top: 0;
+        opacity: 0;
+    }
+
+    .show-file {
+        margin: 20px;
+        vertical-align: middle;
+    }
+
+    .flex-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .ans-area {
+        border: 1px solid #ddd
+    }
+</style>
+<div id="outerdiv" style="text-align: center;position: fixed;z-index: 1000;top: 0;left: 0;
+   width: 100%;height: 100%;background-color: rgba(255,255,255,.9);">
+    <img id="bigimg" style="max-height: 100%;border: 0;
+       margin: auto;position: absolute;top: 0;bottom: 0;left: 0;right: 0;"
+         src="" />
+</div>
+<!-- 内容 -->
+<div class="container-wrap">
+    <div class="container-panel wrap" style="min-height:46em;">
+        <div class="container-fluid">
+            <div class="row item-top">
+                <div class="col-md-3 text-left" onclick="returnpage()">
+                    <img src="/addons/maixun_pte/template/mobile/img/back.png" alt="back">
+                    <span>返回</span>
+                </div>
+            </div>
+            {loop $task $i $item}
+            <div class="row hw-item">
+                <div class="col-md-7">
+                    <div class="q-title" style="padding:1em;border-radius: 8px;background-color: #e5ffe5;">
+                        <span>作业{php echo $i+1}. {php echo strtr($item['problem'], $trans);}</span>
+                    </div>
+<!-- 
+                    <div style="width:100%;text-align: left; "> <span style="margin-left: 2%">请在此作答 ↓ </span></div>
+                    <div class="ans-area" style="padding:1em;border-radius: 8px;background-color: #e5f7ff;text-align: left;">
+                        <span style="color:green;">学生回答的区域</span>
+                    </div> -->
+                </div>
+            </div>
+            {/loop}
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+<script src="/addons/maixun_pte/template/mobile/js/recorder.js"></script>
+<script type="text/javascript">
+     //图片放大
+     $("#outerdiv").hide();
+    $(function () {
+        $("img").mouseover(function () {
+            if ($(this).attr('class') != 'sys') {
+                $(this).css("cursor", "pointer");
+            }
+        });
+        $("img").click(function () {
+            var _this = $(this); //将当前的pimg元素作为_this传入函数
+            if ($(this).attr('class') != 'sys') {
+                imgShow("#outerdiv", "#bigimg", _this);
+            }
+        });
+    });
+
+    function imgShow(outerdiv, bigimg, _this) {
+        var src = _this.attr("src"); //获取当前点击的pimg元素中的src属性
+        var height = _this.css('height');
+        console.log(height);
+        $('#outerdiv').attr('display', 'block');
+        $(bigimg).attr("src", src); //设置#bigimg元素的src属性
+        $(outerdiv).fadeIn("fast");
+
+        $(outerdiv).click(function () { //再次点击淡出消失弹出层
+            $(this).fadeOut("fast");
+        });
+    }
+
+    function returnpage() {
+        history.back();
+    }
+  
+</script>
+{template 'teacher/footer'}

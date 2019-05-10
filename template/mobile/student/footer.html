@@ -1,0 +1,149 @@
+</body>
+
+<script type="text/javascript" src="/addons/maixun_pte/template/mobile/js/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script src="/addons/maixun_pte/template/mobile/js/main.js"></script>
+<script src="/addons/maixun_pte/template/mobile/js/layer/layer.js"></script>
+
+<script type="text/javascript">
+    function loginout() {
+        layer.open({
+            content: '您确定要退出吗？'
+            , btn: ['确定', '取消']
+            , yes: function (index) {
+                $.ajax({
+                    type: 'POST',
+                    url: "{php echo $this->createMobileUrl('logout')}",
+                    data: {},
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        if (data.code == 200) {
+                            layer.open({
+                                content: "提交成功"
+                                , skin: 'msg'
+                                , time: 2
+                                , shadeClose: false
+                            });
+                            setTimeout(function(){
+                                window.location.href="{php echo $this->createMobileUrl('a_index')}";
+                            },2000)
+                        
+                        }
+                    },
+                });
+            }
+        });
+    }
+    var user = {php echo json_encode($this->user)};
+        var openid = user.openid;
+        var ret = false;
+        console.log(openid);
+        if (openid) {
+            $('#zs_div').show();
+            $('#dj_div').hide();
+        } else {
+            console.log('jinlaile');
+            $('#dj_div').show();
+            $('#zs_div').hide();
+        }
+        function butbingding() {
+            $.ajax({
+                type: "POST",
+                url: "{php echo $this->createMobileUrl('s_openidqrcode',array('user'=>$this->user,'op'=>'deleteopenid'))}",  //同目录下的php文件
+                data: '',
+                dataType: "json",
+                async: false,
+                success: function (msg) {  //请求成功后的回调函数
+                    console.log(msg);
+                    if (msg.code == 1) {
+                        $('#dj_div').show();
+                        $('#zs_div').hide();
+                    }
+                }
+            })
+        }
+        var i = 0;
+        function gologin() {
+            console.log('执行了' + (i++));
+            $.ajax({
+                type: "POST",
+                url: "{php echo $this->createMobileUrl('s_openidqrcode',array('user'=>$this->user,'op'=>'selectopenid'))}",  //同目录下的php文件
+                data: '',
+                dataType: "json",
+                async: false,
+                success: function (msg) {  //请求成功后的回调函数
+                    console.log(msg);
+                    if (msg.code == 1) {
+                        layer.open({
+                            content: msg.msg
+                            , skin: 'msg'
+                            , time: 2
+                            , shadeClose: false
+                        });
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000)
+                    } else {
+                        if(ret){
+                            setTimeout(gologin, 2000);
+                        }else{
+                            return;
+                        }
+                        
+                    }
+                }
+            })
+        }
+    function popUp(e) {
+        ret = true;
+        gologin();
+        $(e).fadeIn()
+    }
+
+    function clPopUp(e) {
+        ret = false;
+        $(e).fadeOut()
+    }
+    function submit() {
+        var password = $("input[name='password']").val();
+        var newpassword = $("input[name='newpassword']").val();
+        var new2password = $("input[name='new2password']").val();
+        if (newpassword == new2password) {
+            $.ajax({
+                type: "POST",
+                url: "{php echo $this->createMobileUrl('info', array('op'=>'updateuser'))}",  //同目录下的php文件
+                data: {'password':password,'newpassword':newpassword,'new2password':new2password,},
+                dataType: "json",
+                 async: false,
+                success: function (msg) {  //请求成功后的回调函数
+                    console.log(msg);
+                    if (msg.code == 200) {
+                        layer.open({
+                            content: msg.msg
+                            , skin: 'msg'
+                            , time: 2
+                            , shadeClose: false
+                        });
+                    } else {
+                        layer.open({
+                            content: msg.msg
+                            , skin: 'msg'
+                            , time: 2
+                            , shadeClose: false
+                        });
+                    }
+                }
+            });
+        } else {
+            layer.open({
+                content: '两次输入不匹配'
+                , skin: 'msg'
+                , time: 2
+                , shadeClose: false
+            });
+        }
+
+    }
+</script>
+</html>

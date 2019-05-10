@@ -1,0 +1,499 @@
+{template 'teacher/header'}
+<script src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+{template 'teacher/slide'}
+<style>
+    label{
+            width: 20%;
+            text-align: left;
+        }
+
+        .form-control{
+            width: 80%;
+        }
+
+        .label-name{
+            float:left;
+            margin-right: 11%
+        }
+
+        .class-item{
+            margin-top: 0;
+            width: 20%;
+        }
+
+        .class-item span{
+            color:#122953;
+        }
+
+        .mates{
+            width: 100%;
+            height: 31em;
+            margin-top: 4em;
+            border: 1px solid #6bccc9;
+            overflow-y :auto;
+            overflow-x :hidden;
+        }
+
+        .mate-items{
+            padding-top: 1em;
+            padding-bottom: 1em;
+            border-bottom: 1px dashed #6bccc9;
+        }
+
+        .mate-item{
+            text-align: center;
+        }
+
+        .class-title{
+            font-size: 1.2em;
+            margin-top:0.5em;
+            margin-bottom: 0.5em;
+        }
+
+        .file{
+            position: relative;
+            overflow: hidden;
+        }
+        .file input{
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            right: 0;
+            top: 0;
+            opacity: 0;
+        }
+
+        .show-file{
+            margin: 4px;
+            vertical-align: middle;
+            color: #6bccc9;
+        }
+
+        .file-show{
+            margin-top:0.5em;
+        }
+
+        .file-item{
+            color: #6bccc9;
+        }
+
+        .my-colse1{
+            cursor: pointer;
+        }
+
+        .add-wrap{
+            text-align: left;
+            padding-left: 20%;
+  
+        }
+
+        .restar{
+            padding-left: 20%;
+            text-align: left;
+        }
+
+        .se-class,.mates1{
+            display: none;
+        }
+
+        .work-name{
+            width:30%
+        }
+
+        /* .work-word{
+            width:70%;
+            height: 7em!important;
+            float: right;
+        } */
+
+        .work-word{
+            width:123%;
+            height: 7em!important;
+            margin-left:175px;
+        }
+        .form-group{
+            position: relative;
+        }
+
+        .del{
+            position: absolute;
+            top: 40px;
+            border: 1px solid #6bccc9;
+            width: 10%;
+            color: #6bccc9;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .del:hover{
+            background-color: #6bccc9;
+            color: #ffffff;
+        }
+
+        .home-works .row{
+            margin-bottom: 20px;
+        }
+        .wrap {
+            margin: 1em auto;
+            text-align: center;
+            padding-bottom: 1em;
+        }
+        .se-class2{
+            display: none
+        }
+    </style>
+<!-- 内容 -->
+<div class="container-wrap">
+    <div class="container-panel wrap" style="min-height:46em;">
+        <div class="container-fluid">
+            <div class="row item-top">
+                <div class="col-md-3 text-left">
+                    <img src="/addons/maixun_pte/template/mobile/img/back.png" alt="back">
+                    <a href="{php echo $this->createMobileUrl('a_index', array('id'=>$id))}"><span>返回</span></a>
+                </div>
+                <div class="col"></div>
+            </div>
+            <form action="" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-7">
+                        <input type='hidden' name='op' value='add'>
+                        <div class="restar">
+                            <div class="btn {php echo $id==null?'se-class2':''} my-btn3 my-btnxx">重置</div>
+                        </div>
+                        <div class="mar">
+                            <div class="form-group {php echo $id==null?'':'se-class2'} clearfix se-class1">
+                                <span class="label-name">选择班级:</span>
+                                <div class="row class-items">
+                                    {loop $calsslist $vo}
+                                    <label class="class-item col-md-4">
+                                        <input class="class-check" type="checkbox" value="{$vo['id']}" data-title="{$vo['title']}">
+                                        <span>{$vo['title']}</span>
+                                    </label>
+                                    {/loop}
+                                </div>
+                            </div>
+                            <div class="form-group clearfix">
+                                <label for="names">选择科目:</label>
+                                <select class="form-control" id="name" name="subject">
+                                    {loop $subjectlist $vo}
+                                    <option value="{$vo['id']}" {php echo $vo['id']==$taskold['subjectid']?'selected':''}>{$vo['title']}</option>
+                                    {/loop}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mar">
+                            <div class="form-group clearfix">
+                                <label for="Date">选择日期</label>
+                                <input type="text" name="deadline" class="form-control" value="{php echo date('Y-m-d',$taskold['deadline'])}"
+                                    id="Date" placeholder="请选择日期">
+                            </div>
+                        </div>
+                        <div class="mar home-works" id="task" style="list-style-type:decimal">
+
+
+                            <div class="row">
+                                <div class="col-md-8 form-group clearfix">
+                                    <label class="work-name" for="name1">作业1:</label>
+                                    <div class="del">
+                                            <span onclick="move($(this))">删除</span>
+                                        </div>
+                                    <div class="work-word" id="editor">
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            {if $problem==null}
+                            <div class="row" style="margin-top: 200px;">
+                                <div class="col-md-8 form-group clearfix">
+                                    <label class="work-name" for="name1">作业1:</label>
+                                    <div class="del">
+                                        <span onclick="move($(this))">删除</span>
+                                    </div>
+                                    <textarea type="text" class="form-control work-word" name="name[]" placeholder="请输入文字"></textarea>
+                                </div>
+                                <div class="col-md-4 text-left">
+                                    <div>
+                                        <div class="btn my-btn3 file">
+                                            <span>选择附件</span>
+                                            <input type="file" onchange="uploadfj($(this))">
+                                        </div>
+                                    </div>
+                                    <div class="file-show">
+                                        <input type="hidden" name="srcid[]" value="">
+                                        <!-- <div class="file-item" data-id="1">
+                                            <span>附件</span>
+                                            <span>1:</span>
+                                            <span>我的我的我的我的的的.jpg</span>
+                                            <span class="fa fa-remove my-colse1"></span>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                            {/if}
+                            {if $problem!=null}
+                            {loop $problem $i $vals}
+                            <div class="row">
+                                <div class="col-md-8 form-group clearfix" data-id="{$vals['id']}">
+                                    <label class="work-name" for="name1">作业{php echo $i+1}:</label>
+                                    <div class="del">
+                                        <span onclick="move($(this))">删除</span>
+                                    </div>
+                                    <textarea type="text" class="form-control work-word" value="{php echo $vals['problem']?$vals['problem']:''}"
+                                        name="name[]" placeholder="请输入文字">{php echo $vals['problem']?$vals['problem']:''}</textarea>
+                                </div>
+                                <div class="col-md-4 text-left">
+                                    <div>
+                                        <div class="btn my-btn3 file">
+                                            <span>选择附件</span>
+                                            <input type="file" onchange="uploadfj($(this))">
+                                        </div>
+                                    </div>
+                                    <div class="file-show">
+                                        <input type='hidden' name='srcid[]' value="{$vals['srcid']}">
+                                        {loop $vals['enclosure'] $v}
+                                        <div class='file-item ' data-id="{$v['id']}" onclick='fujianrome($(this))'>
+                                            <span>{$v['title']}:</span>
+                                            <span></span>
+                                            <span>{$v['name']}</span>
+                                            <span class='fa fa-remove my-close1'>
+                                            </span>
+                                        </div>
+                                        {/loop}
+                                        <!-- <div class="file-item">
+                                            <span>附件</span>
+                                            <span>1:</span>
+                                            <span>我的我的我的我的的的.jpg</span>
+                                            <span class="fa fa-remove my-colse1"></span>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                            {/loop}
+                            {/if}
+                        </div>
+                        <div class="mar add-wrap">
+                            <div class="btn my-btn3 add-btn">添加作业</div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mates {php echo $id==null?'':'mates1'} container"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="mar text-left" style="padding-left:20%;">
+                            <!-- <button type="button" class="btn my-btn6 blue">提交作业</button> -->
+                            <input name="submit" type="submit" value="提交" class="btn btn-primary span3" style="width:13%" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+<script src="/addons/maixun_pte/template/mobile/js/main.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.14.4/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdn.staticfile.org/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<script type="text/javascript" src="/addons/maixun_pte/template/mobile/js/wangEditor.min.js"></script>
+<script type="text/javascript">
+    var E = window.wangEditor
+    var editor = new E('#editor')
+    // 或者 var editor = new E( document.getElementById('editor') )
+    editor.create()
+</script>
+<script>
+    // 判断班级添加数据
+    $('.class-check').change(function () {
+        //loadStudent
+        $cls_id = $(this).attr('value');
+        $title = $(this).data('title');
+        // console.log($(this).is(':checked'));
+        if ($(this).is(':checked')) {
+            $.ajax({
+                type: "POST",
+                url: "{php echo $this->createMobileUrl('t_newtask',array('op'=>'selectstudent'))}",
+                data: {
+                    cid: $cls_id
+                },
+                success: function (data) {
+                    console.log(JSON.parse(data).data);
+                    $('.mates').append('<div class="mate-items row cls_' + $cls_id +
+                        '"><div class="col-md-12 class-title">' + $title + '</div></div>');
+                    $.each(JSON.parse(data).data, function (i, item) {
+                        $('.cls_' + $cls_id).append(
+                            '<label class="col-md-6 mate-item" for="' + item.id + '"><input type="checkbox" name="students[]" id="' + item.id + '" value="' +
+                            item.id + '" checked="checked"><span>' + item.name +
+                            '</span></label>');
+                    });
+                },
+                error: function (data) {
+                    $('.mates').append('<div class="mate-items row cls_' + $cls_id +
+                        '"><div class="col-md-12 class-title">' + $title + '</div></div>');
+                    var students = [{
+                        id: 1,
+                        name: "详细信息1"
+                    }, {
+                        id: 2,
+                        name: "详细信息2"
+                    }, {
+                        id: 3,
+                        name: "详细信息3"
+                    }, {
+                        id: 4,
+                        name: "详细信息4"
+                    }];
+                    $.each(students, function (i, item) {
+                        $('.cls_' + $cls_id).append(
+                            '<label class="col-md-6 mate-item"><input type="checkbox" id="' +
+                            item.id + '" checked="checked"><span>' + item.name +
+                            '</span></label>');
+                    });
+                }
+            });
+        } else {
+            $('.cls_' + $cls_id).remove();
+        }
+    });
+    //文件上传
+    // function fileShow(e){
+    //    var $file = e.find('.file');
+    //    var input = e.find("input[type='file']").get(0);
+    // }
+    // $(".file").on("change", "input[type='file']", function () {
+    //     var path = $(this).val();
+    //     var arr = path.split('\\');
+    //     var fileName = arr[arr.length - 1];
+    //     $(".show-file").html(fileName);
+    // });\
+
+    var taskid = '{php echo $id}';
+    function uploadfj(e) {
+        var taskid = taskid
+        var name = '附件';
+        var file = e.context.files[0]; //获取文件路径名，注意了没有files[1]这回事，已经试过坑
+        // console.log(e.parent().parent().next().children('input').val());
+        // return false;
+        var formData = new FormData();
+        formData.append('name', name);
+        formData.append('file', file);
+        formData.append('taskid', taskid);
+        $.ajax({
+            type: "POST",
+            url: "{php echo $this->createMobileUrl('t_newtask', array('op'=>'upload'))}",  //同目录下的php文件
+            data: formData,
+            dataType: "json", //声明成功使用json数据类型回调
+            //如果传递的是FormData数据类型，那么下来的三个参数是必须的，否则会报错
+            cache: false,  //默认是true，但是一般不做缓存
+            processData: false, //用于对data参数进行序列化处理，这里必须false；如果是true，就会将FormData转换为String类型
+            contentType: false,  //一些文件上传http协议的关系，自行百度，如果上传的有文件，那么只能设置为false
+            success: function (msg) {  //请求成功后的回调函数
+                console.log(msg);
+                if (msg.code == 200) {
+                    layer.open({
+                        content: msg.msg
+                        , skin: 'msg'
+                        , time: 2
+                        , shadeClose: false
+                    });
+                    e.parent().parent().next().append("<div class='file-item ' data-id='" + msg.data.id + "'onclick='fujianrome($(this))'><span>" + msg.data.title + ":</span><span></span><span>" + msg.data.name + "</span><span class='fa fa-remove my-close1'></span></div>");
+                    var srclist = e.parent().parent().next().children('input').val();
+                    e.parent().parent().next().children('input').attr("value", srclist + "," + msg.data.id);
+                } else if (msg.code == 201) {
+                    layer.open({
+                        content: msg.msg
+                        , skin: 'msg'
+                        , time: 2
+                        , shadeClose: false
+                    });
+                } else {
+                }
+            }
+        });
+    }
+    //删除 附件
+    function fujianrome(e) {
+        var id = e.data('id')
+        var srclist = e.parent().children('input').val();
+        var list = srclist.split(',');
+        var huitian = "";
+        for (var i = 0; i < list.length; i++) {
+            if (list[i] == id) {
+                console.log(id);
+            } else if (i < list.length - 1) {
+                huitian += list[i] + ',';
+                console.log(huitian);
+            } else if (i = list.length - 1) {
+                huitian += list[i];
+                console.log(huitian);
+            }
+        }
+        e.parent().children('input').attr('value', huitian);
+        console.log(list);
+        e.remove()
+    }
+
+    // 添加作业
+    var count = 2;
+    $('.add-btn').click(function () {
+        var divlist = $("#task").children('div');
+        if (divlist.length > 0) {
+            $('.home-works').append(" <div class='row'><div class='col-md-8 form-group clearfix'><label class='work-name' for='name1'>作业1:</label><div class='del'><span onclick='move($(this))'>删除</span>" +
+                "</div><textarea type='text' class='form-control work-word' name='name[]' placeholder='请输入文字'></textarea></div>" +
+                "<div class='col-md-4 text-left'><div> <button class='btn my-btn3 file'><span>选择附件</span><input type='file' onchange='uploadfj($(this))'>" +
+                "</button></div><div class='file-show'><input type='hidden' name='srcid[]' value=''></div></div></div>");
+            var old = divlist.length + 1;
+            $('#task').children("div:last-child").find('label').text('作业' + old + ":");
+
+        }
+
+    })
+
+
+
+
+    // 重置
+    $('.restar').click(function () {
+        console.log(1);
+        $('.se-class1').show();
+        $('.mates').show();
+        $('.my-btnxx').hide();
+    })
+
+    function move(e) {
+        var divlist = $('#task').children("div");
+        //console.log(divlist);
+        if (divlist.length > 1) {
+            e.parent().parent().parent('.row').remove();
+            //  console.log($('#task').children("div:last-child").children('label').text());
+            for (var i = 0; i < divlist.length; i++) {
+                //console.log( $("#task").find("div").eq(i).find('label'));
+                $("#task").children("div").eq(i).find('label').text('作业' + (i + 1) + ":");
+            }
+        } else {
+            layer.open({
+                content: '作业不能少于一个'
+                , skin: 'msg'
+                , time: 2
+                , shadeClose: false
+            });
+        }
+
+    }
+</script>
+<script>
+    $('#Date').datepicker({
+        format: 'yyyy-mm-dd',
+        maxViewMode: 2,
+        language: "zh-CN",
+        autoclose: true,
+        todayHighlight: true,
+        startDate: "today"
+    })
+</script>
+{template 'teacher/footer'}

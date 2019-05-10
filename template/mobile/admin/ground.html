@@ -1,0 +1,346 @@
+{template 'admin/header'}
+{template 'admin/slide'}
+<style>
+    .k {
+        text-align: center
+    }
+</style>
+<!-- 模态框 -->
+<div class="modal fade popup-pd" id="myModal1">
+    <div class="modal-dialog popup-wid">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title" style="margin:0 auto;">添加考场</h4>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <input type="hidden" name="id" value="">
+                <input type="hidden" name="type" value="">
+                <div class="form-group clearfix">
+                    <label for="name">标题:</label>
+                    <input type="text" class="form-control" name="title">
+                </div>
+                <div class="form-group clearfix">
+                    <label for="name">考试时间:</label>
+                    <input type="text" name="ground_time" class="form-control" value="" id="Date" placeholder="请选择日期">
+                </div>
+                <div class="form-group clearfix">
+                    <label for="name">地点:</label>
+                    <input type="text" class="form-control" name="place">
+                </div>
+                <div class="form-group clearfix">
+                    <label for="name">Excel:</label>
+                    <input type="file" class="form-control" name="excel">
+                </div>
+                <div class="form-group clearfix" style="  text-align: center;font-color:#4b4949">
+                    <span style="font-color:#4b4949">Excel格式:A列：姓名;B列：学号（一列一条数据）</span>
+                </div>
+            </div>
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <div class="btn-group1">
+                    <button type="button" class="btn btn-secondary my-btn5 blue" data-dismiss="modal"
+                        onclick="submit1()" style="margin-right:10%;">确定</button>
+                    <button type="button" class="btn btn-secondary my-btn5 red" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 模态框 -->
+<div class="modal fade popup-pd" id="myModal2">
+    <div class="modal-dialog popup-wid">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title" style="margin:0 auto;">考场详情</h4>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <input type="hidden" name="id" value="">
+                <input type="hidden" name="type" value="">
+                <div class="form-group clearfix">
+                    <label for="name">标题:</label>
+                    <input type="text" class="form-control" name="title">
+                </div>
+                <div class="form-group clearfix">
+                    <label for="name">考试时间:</label>
+                    <input type="text" name="ground_time" class="form-control" value="" id="Date" placeholder="请选择日期">
+                </div>
+                <div class="form-group clearfix">
+                    <label for="name">地点:</label>
+                    <input type="text" class="form-control" name="place">
+                </div>
+                <div class="form-group clearfix">
+                    <label for="name">学生信息:</label>
+                    <textarea class="form-control" id="excel"></textarea>
+                </div>
+            </div>
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <div class="btn-group1">
+                    <!-- <button type="button" class="btn btn-secondary my-btn5 blue" data-dismiss="modal"
+                        onclick="submit1()" style="margin-right:10%;">确定</button> -->
+                    <button type="button" class="btn btn-secondary my-btn5 red" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 内容 -->
+<div class="container-wrap">
+    <div class="container-panel editor">
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-md-2 btn-wrap" data-toggle="modal" data-target="#myModal1" onclick="add()"> <img
+                        src="/addons/maixun_pte/template/mobile/img/add.png" alt="" data-toggle="modal"
+                        data-target="#myModal1">
+                    <span>添加新考场</span>
+                </div>
+                <!-- <div class="col-md-2 btn-wrap" {if $sign_type=='adopt' }style="background-color: #6bccc9" {/if}> <img
+                    src="/addons/maixun_pte/template/mobile/img/finish.png" alt="">
+                    <a
+                        href="{php echo $this->createMobileUrl('a_leaveadmin',array('sign_type'=>'adopt'))}"><span>已通过</span></a>
+                </div>
+
+                <div class="col-md-2 btn-wrap" {if $sign_type=='reject' }style="background-color: #6bccc9" {/if}> <img
+                    src="/addons/maixun_pte/template/mobile/img/ban.png" alt="">
+                    <a
+                        href="{php echo $this->createMobileUrl('a_leaveadmin',array('sign_type'=>'reject'))}"><span>已驳回</span></a>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <div class="container-panel record">
+        <div class="container-fluid">
+            <div class="row chart-item">
+                <div class="col-md-3">标题</div>
+                <div class="col-md-3">考试时间</div>
+                <div class="col-md-3">地点</div>
+                <div class="col-md-3">操作</div>
+            </div>
+            {loop $groundlist $item}
+            <div class="row chart-item">
+                <div class="col-md-3">{$item['title']}</div>
+                <div class="col-md-3">{php echo date('Y-m-d H:s',$item['ground_time'])}</div>
+                <div class="col-md-3">{$item['place']}</div>
+                <div class="col-md-3">
+                    {if $item['status']==0}
+                    <button class="btn my-btn1 red col-md-3" data-type="open" data-id="{$item['id']}"
+                        onclick="gostatus($(this))">发布</button>
+                    {/if}
+                    <button class="btn my-btn1 blue col-md-3" data-data='{php echo json_encode($item)}'
+                        data-toggle="modal" data-target="#myModal2"
+                        data-ground_time="{php echo date('Y-m-d H:s',$item['ground_time'])}"
+                        onclick=lookdetail($(this))>查看详情</button>
+                    <button class="btn my-btn1 green col-md-3" data-data='{php echo json_encode($item)}'
+                        data-toggle="modal" data-target="#myModal1"
+                        data-ground_time="{php echo date('Y-m-d H:s',$item['ground_time'])}"
+                        onclick=edit($(this))>编辑</button>
+                    {if $item['status']==1}
+                    <button class="btn my-btn1 red col-md-3" data-type="delete" data-id="{$item['id']}"
+                        onclick="gostatus($(this))">删除</button>
+                    {/if}
+                </div>
+            </div>
+            {/loop}
+        </div>
+    </div>
+    {$pager}
+    <!-- <ul class="pagination">
+        <li class="page-item"><a class="page-link page-pull" href="#">上一页</a></li>
+        <li class="page-item active"><a class="page-link page-num" href="#">1</a></li>
+        <li class="page-item"><a class="page-num page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link page-num" href="#">3</a></li>
+        <li class="page-item"><a class="page-link page-pull page-ban" href="#">下一页</a></li>
+    </ul> -->
+</div>
+<script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+<script src="/addons/maixun_pte/template/mobile/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/addons/maixun_pte/template/mobile/js/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript">
+    function lookdetail(e) {
+        var info = (e.data('data'));
+        $.ajax({
+            type: 'POST',
+            url: "{php echo $this->createMobileUrl('a_groundadmin',array('op'=>'getdetail'))}",
+            data: {
+                'id': info.id
+            },
+            // processData: false, //告诉jquery不要处理数据
+            // contentType: false, //告诉jquery不要设置ContentType
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                // console.log(data)
+                if (data.code == 200) {
+                    var g_data = data.data
+                    $("input[ name='id'] ").attr("value", info.id);
+                    $("input[ name='title'] ").attr("value", info.title);
+                    $("input[ name='ground_time'] ").attr("value", e.data('ground_time'));
+                    $("input[ name='place']").attr("value", info.place);
+                    $("#excel").text(g_data);
+                } else {
+                    layer.open({
+                        content: data.msg,
+                        skin: 'msg',
+                        time: 2,
+                        shadeClose: false
+                    });
+                    return false;
+                }
+            },
+        });
+    }
+
+    function add() {
+        $("input[ name='id'] ").attr("value", '');
+        $("input[ name='type'] ").attr("value", '');
+        $("input[ name='title'] ").attr("value", '');
+        $("input[ name='place'] ").attr("value", '');
+    }
+
+    function edit(e) {
+        console.log(e.data('data'));
+        var info = (e.data('data'));
+        $("input[ name='type'] ").attr("value", 'edit');
+        $("input[ name='id'] ").attr("value", info.id);
+        $("input[ name='title'] ").attr("value", info.title);
+        $("input[ name='ground_time'] ").attr("value", e.data('ground_time'));
+        $("input[ name='place'] ").attr("value", info.place);
+        $("input[ name='excel'] ").attr("value", '上传excel');
+    }
+
+    function submit1() {
+        var type = $("input[ name='type'] ").val()
+        var id = $("input[ name='id'] ").val()
+        var title = $("input[ name='title' ] ").val()
+        var ground_time = $("input[ name='ground_time'] ").val()
+        var place = $(" input[ name='place' ] ").val()
+        var excel = $("input[ name='excel' ]").get(0).files[0];
+        if (title == '' || title == null) {
+            layer.open({
+                content: '标题不能为空',
+                skin: 'msg',
+                time: 2,
+                shadeClose: false
+            });
+            return false;
+        }
+        if (place == '' || place == null) {
+            layer.open({
+                content: '地点不能为空',
+                skin: 'msg',
+                time: 2,
+                shadeClose: false
+            });
+            return false;
+        }
+        if (ground_time == '' || ground_time == null) {
+            layer.open({
+                content: '时间不能为空',
+                skin: 'msg',
+                time: 2,
+                shadeClose: false
+            });
+            return false;
+        }
+        if (type != 'edit') {
+            if (excel == '' || excel == null) {
+                layer.open({
+                    content: '请上传Excel',
+                    skin: 'msg',
+                    time: 2,
+                    shadeClose: false
+                });
+                return false;
+            }
+        }
+        var formData = new FormData();
+        formData.append('excel', excel)
+        formData.append('title', title)
+        formData.append('ground_time', ground_time)
+        formData.append('place', place)
+        formData.append('id', id)
+        if (type == 'edit') {
+            formData.append('op', 'edit')
+        } else {
+            formData.append('op', 'add')
+        }
+        $.ajax({
+            type: 'POST',
+            url: "{php echo $this->createMobileUrl('a_groundadmin')}",
+            data: formData,
+            processData: false, //告诉jquery不要处理数据
+            contentType: false, //告诉jquery不要设置ContentType
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                console.log(data)
+                if (data.code == 200) {
+                    layer.open({
+                        content: data.msg,
+                        skin: 'msg',
+                        time: 2,
+                        shadeClose: false
+                    });
+                    setTimeout(function () {
+                        window.location.href = "{php echo $this->createMobileUrl('a_groundadmin')}";
+                    }, 1900);
+                } else {
+                    layer.open({
+                        content: data.msg,
+                        skin: 'msg',
+                        time: 2,
+                        shadeClose: false
+                    });
+
+                }
+            },
+        });
+    }
+
+    function gostatus(e) {
+        var id = e.data('id')
+        var status_type = e.data('type')
+        $.ajax({
+            type: 'POST',
+            url: "{php echo $this->createMobileUrl('a_groundadmin',array('op'=>'status'))}",
+            data: {
+                'id': id,
+                'status_type': status_type,
+            },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data.code == 200) {
+                    layer.open({
+                        content: data.msg,
+                        skin: 'msg',
+                        time: 2,
+                        shadeClose: false
+                    });
+                    setTimeout(function () {
+                        window.location.href = "{php echo $this->createMobileUrl('a_groundadmin')}";
+                    }, 2000)
+
+                }
+            },
+        });
+    }
+
+    $('#Date').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        maxViewMode: 2,
+        language: "zh-CN",
+        autoclose: true,
+        todayHighlight: true,
+    });
+
+    $(document).ready(function () {
+        $("#a_groundadmin").addClass('active');
+    });
+</script>
+{template 'admin/footer'}

@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <script type="text/javascript" src="./dialogs/internal.js"></script>
+    <style>
+    .content {
+        width: 95%;
+        margin:0 auto;
+        text-align: center;
+        padding:50px 0;
+    }
+    .content input{
+        padding:10px 30px;
+        margin:0 auto;
+        font-size:16px;
+        border-radius: 8px;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <div>
+            <input id="record_status" onclick="startRecording()" type="button" value="录音" />
+            <input id="stop_play" onclick="stopPlaying()" type="button" value="停止" />
+            <input id="stop" onclick="stopRecording()" type="button" value="停止" />
+            <input id="play" onclick="playRecording()" type="button" value="播放" />
+            <input id="submit" onclick="uploadAudio()" type="button" value="提交" />
+        </div>
+        <audio controls autoplay style="display:block;margin: 0 auto;"></audio>
+    </div>
+    <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./HZRecorder.js?t=20181219"></script>
+
+
+    <script>
+        var initialty = false;
+        var recorder;
+        var votype = 0;
+        var audio = document.querySelector('audio');
+
+        if(!initialty){
+            $('#stop_play').hide();
+            $('#stop').hide();
+            $('#play').hide();
+            $('#submit').hide();
+            // $('#stop').attr('disabled',"true");
+            // $('#play').attr('disabled',"true");
+            // $('#submit').attr('disabled',"true");
+        }
+        function startRecording() {
+            HZRecorder.get(function (rec) {
+                recorder = rec;
+                recorder.start();
+                votype =1;
+                settime(0);
+                $('#stop').show();
+                $('#stop_play').hide();
+                $('#play').hide();
+                $('#submit').hide();
+               //console.log(recorder.getBlob());
+            });
+        }
+        function settime(timeint,closevo=true) {
+            console.log('进来了'+timeint);
+            if(closevo){
+            //$('#record').text("录音中..." + Math.floor(timeint / 1000) + "秒");
+            if(votype==1){
+                $("#record_status").val("录音中..." +timeint + "秒");
+            }
+            timeint++
+            if (votype==1) {
+                setTimeout("settime("+timeint+")" , 1000);
+            }
+            }else{
+                $('#record_status').val("重新录音");
+                return false;
+            }
+        }
+        function stopRecording() {
+            settime(null,false);
+            votype=0;
+            recorder.stop();
+            $('#record_status').val("重新录音");
+            $('#stop').hide();
+            $('#play').show();
+            $('#submit').show();
+        }
+
+        function playRecording() {
+            $('#record_status').hide();
+            $('#stop_play').show();
+            $('#play').hide();
+            recorder.play(audio);
+        }
+
+        function stopPlaying() {
+            $('#record_status').show();
+            $('#stop_play').hide();
+            $('#play').show();
+            audio.pause();
+        }
+
+        function uploadAudio() {
+            recorder.upload(editor.getActionUrl(editor.getOpt('recordActionName')), function (state, e) {
+                switch (state) {
+                    case 'uploading':
+                        //var percentComplete = Math.round(e.loaded * 100 / e.total) + '%';
+                        break;
+                    case 'ok':
+                        //alert(e.target.responseText);
+                        eval("var result = " + e.target.responseText);
+                        if (result.state == "SUCCESS") {
+                            editor.execCommand('inserthtml', '<p>语音：<br />&nbsp;<audio controls src="' + result.url + '"></audio>&nbsp;</p>');
+                            dialog.close();
+                        } else {
+                            alert(result.state);
+                        }
+                        break;
+                    case 'error':
+                        alert("上传失败");
+                        break;
+                    case 'cancel':
+                        alert("上传被取消");
+                        break;
+                }
+            });
+        }
+
+    </script>
+</body>
+
+</html>

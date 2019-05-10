@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>深大课程管理——考勤</title>
+  <link rel="stylesheet" href="https://cdn.staticfile.org/jquery-weui/1.2.1/css/jquery-weui.min.css" />
+  <link rel="stylesheet" href="/addons/maixun_pte/template/mobile/css/mobilestyle.css" />
+</head>
+<style>
+  a {
+    text-decoration: none;
+    color: rgb(131, 130, 130);
+  }
+</style>
+
+<body>
+
+  <div class="container">
+    <!-- 内容 -->
+    <div class="contant col">
+      <div class="check">
+        <div class="row">
+          <div class="list">
+            <a href="{php echo $this->createMobileUrl('s_sign',array('op'=>'click_list'))}">
+              <div class="item  {if $operation=='click_list'}active{/if}" data-wrap="1">
+                <span>出勤</span>
+                <div class="line"></div>
+              </div>
+            </a>
+            <a href="{php echo $this->createMobileUrl('s_sign',array('op'=>'upsign_list'))}">
+              <div class="item {if $operation=='upsign_list'}active{/if}" data-wrap="2">
+                <span>补卡</span>
+                <div class="line"></div>
+              </div>
+            </a>
+            <a href="{php echo $this->createMobileUrl('s_sign',array('op'=>'leave_list'))}">
+              <div class="item {if $operation=='leave_list'}active{/if}" data-wrap="3">
+                <span>请假</span>
+                <div class="line"></div>
+              </div>
+            </a>
+          </div>
+          {if $operation!='click_list'} <div class="create" data-type="{$operation}" onclick="goform($(this))">新建申请</div> {/if}
+        </div>
+        <div class="check-container">
+          <!-- 出勤 -->
+          {if $operation=='click_list'}
+          <div class="check-wrap1">
+            <div class="check-list">
+              {loop $click_list $item}
+              <div class="item">
+                <img class="avatar1" src="{$item['handurl']}" alt="">
+                <div class="detail">
+                  <div class="statu">
+                    <div>打卡状态：</div>
+                    <div class="tag {php echo $item['status']=='签到'?'info':($item['status']=='迟到'?'wait':'error')}"><span>{$item['status']}</span></div>
+                  </div>
+                  <div class="lesson">
+                    <div>打卡课程：</div>
+                    <div>{$item['subject_name']}</div>
+                  </div>
+                  <div class="times">
+                    <div>打卡时间：</div>
+                    <div>{php echo $item['click_time']?date('Y-m-d H:i:s',$item['click_time']):''}</div>
+                  </div>
+                </div>
+                <div class="day">周{php echo $weeklist_fan[$item['week']]}</div>
+              </div>
+              {/loop}
+            </div>
+          </div>
+          {/if}
+          <!-- 补卡 -->
+          {if $operation=='upsign_list'}
+          <div class="check-wrap2">
+            <div class="check-list">
+              {loop $upsign_list $item}
+              <div class="item">
+                <img class="avatar1" src="{$item['handurl']}" alt="">
+                <div class="detail">
+                  <div class="statu">
+                    <div>补卡状态：</div>
+                    <div class="tag {php echo $item['status']==1?'info':($item['status']==0?'wait':'error')}"><span>
+                      {php echo $item['status']==1?'已通过':($item['status']==0?'审核中':'已驳回')}</span></div>
+                  </div>
+                  <div class="lesson">
+                    <div>打卡类型：</div>
+                    <div>{$item['sign_type']}</div>
+                  </div>
+                  <div class="times">
+                    <div>补卡时间：</div>
+                    <div>{php echo $item['sign_time']?date('Y-m-d H:i:s',$item['sign_time']):''}</div>
+                  </div>
+                </div>
+                <div class="day">{php echo $item['subject_name']}</div>
+              </div>
+              {/loop}
+            </div>
+          </div>
+          {/if}
+          <!-- 请假 -->
+          {if $operation=='leave_list'}
+          <div class="check-wrap3">
+              <div class="check-list">
+                {loop $leave_list $item}
+                <div class="item">
+                  <img class="avatar1" style="" src="{$item['handurl']}" alt="">
+                  <div class="detail">
+                    <div class="statu">
+                      <div>请假状态：</div>
+                      <div class="tag {php echo $item['status']==1?'info':($item['status']==0?'wait':'error')}"><span>{php echo $item['status']==0?'审核中':($item['status']==1?'已通过':'已驳回')}</span></div>
+                    </div>
+                    <div class="lesson">
+                      <div>请假类容：</div>
+                      <div style="width:60%;text-overflow:ellipsis; white-space:nowrap;overflow:hidden;">{$item['leave_content']}</div>
+                    </div>
+                    <div class="times">
+                      <div>开始时间：</div>
+                      <div>{php echo $item['start_time']?date('Y-m-d H:i',$item['start_time']):''}</div>
+                    </div>
+                    <div class="times">
+                        <div>结束时间：</div>
+                        <div>{php echo $item['end_time']?date('Y-m-d H:i',$item['end_time']):''}</div>
+                      </div>
+                  </div>
+                  <div class="day" style="width:55px">{php echo $item['leave_type']}</div>
+                </div>
+                {/loop}
+              </div>
+            </div>
+          {/if}
+        </div>
+      </div>
+    </div>
+
+    <!-- 底部tab -->
+    <div class="tab color">
+      <a href="{php echo $this->createMobileUrl('s_sign')}">
+        <div class="item  a-color" data-url="">
+          <img class="icon" src="/addons/maixun_pte/template/mobile/img/icon1a.png" alt="" />
+          <span>考勤</span>
+        </div>
+      </a>
+      <a href="{php echo $this->createMobileUrl('s_task')}">
+        <div class="item">
+          <img class="icon" src="/addons/maixun_pte/template/mobile/img/icon2b.png" alt="" />
+          <span>课程</span>
+        </div>
+      </a>
+      <a href="{php echo $this->createMobileUrl('s_userinfo')}">
+        <div class="item">
+          <img class="icon" src="/addons/maixun_pte/template/mobile/img/icon3b.png" alt="" />
+          <span>我的</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</body>
+<script src="https://cdn.staticfile.org/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+<script src="/addons/maixun_pte/template/mobile/js/mobilemain.js"></script>
+<script>
+  function goform(e){
+      var type = e.data('type');
+      if(type=='leave_list'){
+        location.href="{php echo $this->createMobileUrl('s_leave')}";
+      }else{
+        location.href="{php echo $this->createMobileUrl('s_upsign')}";
+      }
+     
+  }
+</script>
+
+</html>

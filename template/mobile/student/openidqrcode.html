@@ -1,0 +1,96 @@
+{template 'student/header'}
+{template 'student/slide'}
+<!-- 内容 -->
+<div class="container-wrap">
+    <div class="container-panel editor">
+        <div class="container-fluid">
+    
+        </div>
+    </div>
+    <style>
+        .outerimg {
+          text-align: center;
+          padding: 5;
+      } 
+    </style>
+    <div class="container-panel record">
+
+        <div class="container-fluid" class="outerimg" id="qrcode">
+            <img src="{$url}" />
+        </div>
+
+        <div class="container-fluid" class="outerimg" id="info">
+            <img src="{$user['handurl']}" />
+            <span>{$user['nickname']}</span>
+            <button onclick="butbingding()">重新绑定</button>
+        </div>
+
+    </div>
+</div>
+<script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+    var user = {php echo json_encode($user)};
+    var openid = user.openid;
+    console.log(openid);
+    if (openid) {
+        $('#info').show();
+        $('#qrcode').hide();
+    } else {
+        console.log('jinlaile');
+        $('#qrcode').show();
+        $('#info').hide();
+    }
+    function butbingding() {
+        $('#qrcode').show();
+        $('#info').hide();
+        $.ajax({
+            type: "POST",
+            url: "{php echo $this->createMobileUrl('s_openidqrcode',array('user'=>$user,'op'=>'deleteopenid'))}",  //同目录下的php文件
+            data: '',
+            dataType: "json",
+            async: false,
+            success: function (msg) {  //请求成功后的回调函数
+                console.log(msg);
+                if (msg.code == 1) {
+                    gologin();
+                }
+            }
+        })
+    }
+    var i = 0;
+    window.onload = function ()//用window的onload事件，窗体加载完毕的时候
+    {
+        if(!openid){
+            gologin();
+        }
+    }
+    function gologin() {
+        console.log('执行了' + (i++));
+        $.ajax({
+            type: "POST",
+            url: "{php echo $this->createMobileUrl('s_openidqrcode',array('user'=>$user,'op'=>'selectopenid'))}",  //同目录下的php文件
+            data: '',
+            dataType: "json",
+            async: false,
+            success: function (msg) {  //请求成功后的回调函数
+                console.log(msg);
+                if (msg.code == 1) {
+                    layer.open({
+                        content: msg.msg
+                        , skin: 'msg'
+                        , time: 2
+                        , shadeClose: false
+                    });
+                    setTimeout(function(){
+                        window.location.href = "{php echo $this->createMobileUrl('s_openidqrcode')}";
+                    },2000)
+                  
+                } else {
+                    setTimeout(gologin, 2000);
+                }
+            }
+        })
+    }
+
+</script>
+{template 'student/footer'}

@@ -1,0 +1,136 @@
+{template 'teacher/header'}
+{template 'teacher/slide'}
+<!-- 内容 -->
+<div class="container-wrap">
+    <div class="container-panel editor">
+        <div class="container-fluid" style="line-height: 7em;">
+            <span><b>标题：</b>{$title}</span>
+            <span style="margin-left: 50px"><b>截止时间：</b>{$deadline}</span>
+        </div>
+    </div>
+    <div class="container-panel record">
+        <div class="container-fluid">
+            <!-- <div class="row chart-item text-center">
+                <div class="col">
+                    <span>作业详情</span>
+                </div>
+            </div> -->
+            <div class="row chart-item">
+                <div class="col">学生</div>
+                <div class="col">提交截止时间</div>
+                <div class="col">作业状态</div>
+                <div class="col">操作</div>
+            </div>
+            {loop $tasklist $item}
+            <div class="row chart-item">
+                <div class="col">{$item['name']}</div>
+                <div class="col">{php echo date('Y-m-d H:i',$item['deadline'])}</div>
+                {if $item['deadline'] > time()}
+                <div class="col">{php echo $item['status']=='0'?'还未开始做':($item['status']=='1'?'写答中':'已完成')}</div>
+                {/if}
+                {if $item['deadline'] < time()}
+                <div class="col">{php echo $item['status']=='0'?'逾期未做':($item['status']=='1'?'逾期未做完':'已完成')}</div>
+                {/if}
+                <div class="col">
+                    {if $item['status']==2 || time()>$item['deadline']}
+                    <a href="{php echo $this->createMobileUrl('t_suggest', array('id' =>$item['id'], 'taskid'=>$item['taskid'],'studentid'=>$item['studentid']))}">
+                        <button class="btn my-btn1 red" >{php echo $item['tstatus']==0?'批改':'已批改'}</button>
+                    </a>
+                    {/if}
+                </div>
+            </div>
+            {/loop}
+        </div>
+    </div>
+    {$pager}
+</div>
+<script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#t_task").addClass('active');
+    });
+    function submit() {
+        var schoolid = $("#names").val();
+        var id = $("input[ name='id' ] ").val()
+        var name = $(" input[ name='name' ] ").val()
+        var tel = $(" input[ name='tel' ] ").val()
+        var email = $(" input[ name='email' ] ").val()
+        var userid = $(" input[ name='userid' ] ").val()
+        //alert(schoolid + '  ' + id + '  ' + name + '  ' + tel + '  ' + email+ '  ' + userid);
+        $.ajax({
+            type: 'POST',
+            url: "{php echo $this->createMobileUrl('t_task',array('op'=>'add'))}",
+            data: { 'schoolid': schoolid, 'id': id, 'name': name, 'tel': tel, 'email': email, 'userid': userid },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data.code == 200) {
+                    layer.open({
+                        content: data.msg
+                        , skin: 'msg'
+                        , time: 2
+                        , shadeClose: false
+                    });
+                    $("input[ name='id' ] ").attr("value", '');
+                    $("input[ name='name' ] ").attr("value", '');
+                    $("input[ name='tel' ] ").attr("value", '');
+                    $("input[ name='email' ] ").attr("value", '');
+                    $("input[ name='userid' ] ").attr("value", '');
+                    setTimeout(function () {
+                        window.location.href = "{php echo $this->createMobileUrl('t_task')}";
+                    }, 2000)
+                } else {
+                    layer.open({
+                        content: data.msg
+                        , skin: 'msg'
+                        , time: 2
+                        , shadeClose: false
+                    });
+                    $("input[ name='id' ] ").attr("value", '');
+                    $("input[ name='name' ] ").attr("value", '');
+                    $("input[ name='tel' ] ").attr("value", '');
+                    $("input[ name='email' ] ").attr("value", '');
+                    $("input[ name='userid' ] ").attr("value", '');
+                }
+            },
+        });
+    }
+
+    function edit(e) {
+        var info = e
+        $("#names  option[value=" + info.schoolid + "] ").attr("selected", true)
+        $("input[ name='id' ] ").attr("value", info.id);
+        $("input[ name='name' ] ").attr("value", info.name);
+        $("input[ name='tel' ] ").attr("value", info.phone);
+        $("input[ name='email' ] ").attr("value", info.Email);
+        $("input[ name='userid' ] ").attr("value", info.userid);
+
+    }
+    function gostatus(e) {
+        var id = e.data('id')
+        var type = e.data('type')
+        //alert('id：' + id + "  type:" + type );
+        $.ajax({
+            type: 'POST',
+            url: "{php echo $this->createMobileUrl('t_task',array('op'=>'status'))}",
+            data: { 'id': id, 'type': type },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data.code == 200) {
+                    layer.open({
+                        content: data.msg
+                        , skin: 'msg'
+                        , time: 2
+                        , shadeClose: false
+                    });
+                    setTimeout(function () {
+                        window.location.href = "{php echo $this->createMobileUrl('t_task')}";
+                    }, 2000)
+
+                }
+            },
+        });
+    }
+</script>
+{template 'teacher/footer'}

@@ -1,0 +1,77 @@
+{template 'student/header'}
+{template 'student/slide'}
+<!-- 内容 -->
+
+<div class="container-wrap">
+    <div class="container-panel record" style="height:46em; ">
+        <div class="container-fluid">
+            <form action="" method="GET">
+                <div class="row chart-item ">
+                    <div class="form-group" style="width:600px">
+                        <input type="hidden" name="i" value="4">
+                        <input type="hidden" name="c" value="entry">
+                        <input type="hidden" name="do" value="s_myhomework">
+                        <input type="hidden" name="m" value="maixun_pte">
+                        <span class="input-icon ">
+                            <input type="text" class="form-control input-sm" name="keyword" value="">
+                            <i class="glyphicon glyphicon-search blue"></i>
+                        </span>
+                        <input class="btn  green" name="submit" type="submit" style="margin-left:20px;width: 20%;color:#fff;margin-top: -5px"
+                            value="搜索">
+                    </div>
+                </div>
+            </form>
+            <div class="row chart-item">
+                <div class="col">作业标题</div>
+                <div class="col">布置老师</div>
+                <div class="col">截止提交时间</div>
+                <div class="col">作业状态</div>
+                <div class="col">操作</div>
+            </div>
+            {loop $tasklist $item}
+            <div class="row chart-item">
+                <div class="col">{php echo date('Y-m-d',$item['titletime'])}-{$item['title']}</div>
+                <div class="col">{$item['teachername']}</div>
+                <div class="col">{php echo date('Y-m-d H:i',$item['deadline'])}</div>
+                <div class="col">{php echo $item['sttstatus']==0?'未开始填写':($item['sttstatus']==1?'完成中':'已提交作业')}</div>
+                <div class="col">
+                    {if $item['status']==1 || $item['status']==2}
+                    {if ($item['sttstatus'] == 0 || $item['sttstatus'] == 1) && $item['status'] != 2 &&  $item['deadline'] > time()}
+                    <a href="{php echo $this->createMobileUrl('s_commit', array('taskid'=>$item['id'],'type'=>1,'sttid'=>$item['sttid']))}"><button
+                            class="btn my-btn blue" style="width: 200px">前往提交</button></a>
+                    {/if}
+                    {if $item['sttstatus'] == 2 && $item['stttstatus'] != 1}
+                    <a href="{php echo $this->createMobileUrl('s_commit', array('taskid'=>$item['id'],'type'=>2,'sttid'=>$item['sttid']))}"><button
+                            class="btn my-btn green" style="width: 200px">已提交</button></a>
+                    {/if}
+                    {if ($item['status'] == 2 || $item['deadline'] < time()) && $item['sttstatus'] !=2} <a href="{php echo $this->createMobileUrl('s_commit', array('taskid'=>$item['id'],'type'=>3,'sttid'=>$item['sttid']))}"><button
+                            class="btn my-btn red" style="width: 200px">截止提交</button></a>
+                        {/if}
+                        {if $item['stttstatus'] == 1}
+                        <a href="{php echo $this->createMobileUrl('s_commit',array('taskid'=>$item['id'],'type'=>4,'sttid'=>$item['sttid']))}"><button
+                                class="btn my-btn green" style="width: 200px">查看评语</button></a>
+                        {/if}
+                        {/if}
+                </div>
+            </div>
+            {/loop}
+        </div>
+    </div>
+    {$pager}
+
+    <!-- <ul class="pagination">
+            <li class="page-item"><a class="page-link page-pull" href="#">上一页</a></li>
+            <li class="page-item active"><a class="page-link page-num" href="#">1</a></li>
+            <li class="page-item"><a class="page-num page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link page-num" href="#">3</a></li>
+            <li class="page-item"><a class="page-link page-pull page-ban" href="#">下一页</a></li>
+        </ul> -->
+</div>
+<script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+ $(document).ready(function(){
+    $("#s_myhomework").addClass('active');
+});
+
+</script>
+{template 'student/footer'}

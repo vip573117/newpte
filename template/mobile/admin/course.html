@@ -1,0 +1,220 @@
+{template 'admin/header'}
+{template 'admin/slide'}
+<!-- 模态框 -->
+<div class="modal fade popup-pd" id="myModal1">
+    <div class="modal-dialog popup-wid">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title" style="margin:0 auto;">新增课程</h4>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <form action="">
+                    <input type="hidden" name="id" value="">
+                    <input type="hidden" name="type" value="">
+                    <div class="form-group clearfix">
+                        <label for="names">科目:</label>
+                        <select class="form-control" name="selectschool" id="subject_id">
+                            {loop $subjectlist $vo}
+                            <option id="subject_name" value="{$vo['id']}">{$vo['title']}</option>
+                            {/loop}
+                        </select>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label for="names">week:</label>
+                        <select class="form-control" name="selectschool" id="week">
+                            {loop $week $vo}
+                            <option value="{$vo}">{$vo}</option>
+                            {/loop}
+                        </select>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label for="name">开始时间:</label>
+                        <select class="form-control" name="selectschool" id="start_time">
+                            {loop $start_time $vo}
+                            <option value="{$vo}">{$vo}</option>
+                            {/loop}
+                        </select>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label for="name">结束时间:</label>
+                        <select class="form-control" name="selectschool" id="end_time">
+                            {loop $end_time $vo}
+                            <option value="{$vo}">{$vo}</option>
+                            {/loop}
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <div class="btn-group1">
+                    <button type="button" class="btn btn-secondary my-btn5 blue" data-dismiss="modal"
+                        onclick="submit1()" style="margin-right:10%;">确定</button>
+                    <button type="button" class="btn btn-secondary my-btn5 red" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 内容 -->
+<div class="container-wrap">
+    <div class="container-panel editor">
+        <div class="container-fluid">
+            <div class="row">
+                <div onclick="newadd()" class="col-md-2 btn-wrap">
+                    <img src="/addons/maixun_pte/template/mobile/img/add.png" alt="" data-toggle="modal"
+                        data-target="#myModal1">
+                    <span>新增</span>
+                </div>
+                <!-- <div class="col-md-2 btn-wrap">
+                        <img src="/addons/maixun_pte/template/mobile/img/ban.png" alt="">
+                        <span>禁止</span>
+                    </div>
+                    <div class="col-md-2 btn-wrap">
+                        <img src="/addons/maixun_pte/template/mobile/img/finish.png" alt="">
+                        <span>启用</span>
+                    </div> -->
+            </div>
+        </div>
+    </div>
+    <div class="container-panel record">
+        <div class="container-fluid">
+            <div class="row chart-item">
+                <div class="col-md-2">科目</div>
+                <div class="col-md-2">week</div>
+                <div class="col-md-2">开始时间</div>
+                <div class="col-md-2">结束时间</div>
+                <div class="col-md-2">创建时间</div>
+                <div class="col-md-2">操作</div>
+            </div>
+            {loop $courselist $item}
+            <div class="row chart-item">
+                <div class="col-md-2">{$item['subject_name']}</div>
+                <div class="col-md-2">{$item['week']}</div>
+                <div class="col-md-2">{$item['start_time']}</div>
+                <div class="col-md-2">{$item['end_time']}</div>
+                <div class="col-md-2">{php echo date('Y-m-d H:s',$item['createtime'])}</div>
+                <div class="col-md-2">
+                    <button class="btn my-btn1 green col-md-3" data-data='{php echo json_encode($item)}'
+                        data-toggle="modal" data-target="#myModal1" onclick=edit($(this))>编辑</button>
+                    <button class="btn my-btn1 red col-md-3" data-id="{$item['id']}"
+                        onclick="gostatus($(this))">删除</button>
+                </div>
+            </div>
+            {/loop}
+        </div>
+    </div>
+    {$pager}
+    <!-- <ul class="pagination">
+        <li class="page-item"><a class="page-link page-pull" href="#">上一页</a></li>
+        <li class="page-item active"><a class="page-link page-num" href="#">1</a></li>
+        <li class="page-item"><a class="page-num page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link page-num" href="#">3</a></li>
+        <li class="page-item"><a class="page-link page-pull page-ban" href="#">下一页</a></li>
+    </ul> -->
+</div>
+<script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+<script src="/addons/maixun_pte/template/mobile/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/addons/maixun_pte/template/mobile/js/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript">
+    function submit1() {
+        var id = $("input[ name='id'] ").val()
+        var subject_id = $("#subject_id").val();
+        var subject_name = $("#subject_id").find("option:selected").text();
+        var week = $("#week").val();
+        var start_time = $("#start_time").val();
+        var end_time = $("#end_time").val();
+        $.ajax({
+            type: 'POST',
+            url: "{php echo $this->createMobileUrl('a_courseadmin',array('op'=>'add'))}",
+            data: {
+                'subject_id': subject_id,
+                'subject_name': subject_name,
+                'start_time': start_time,
+                'end_time': end_time,
+                'week': week,
+                'id': id,
+            },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data.code == 200) {
+                    layer.open({
+                        content: data.msg,
+                        skin: 'msg',
+                        time: 2,
+                        shadeClose: false
+                    });
+                    setTimeout(function () {
+                        window.location.href = "{php echo $this->createMobileUrl('a_courseadmin')}";
+                    }, 2000)
+                } else {
+                    layer.open({
+                        content: data.msg,
+                        skin: 'msg',
+                        time: 2,
+                        shadeClose: false
+                    });
+                }
+            },
+        });
+    }
+
+    function edit(e) {
+        var info = e.data('data');       
+        console.log(info);
+        console.log(info.start_time);
+        $("#subject_id  option[value=" + info.subject_id + "] ").attr("selected", true) 
+        $("#week  option[value=" + info.week + "] ").attr("selected", true)
+        $("input[ name='id' ] ").attr("value", info.id);
+        $("#start_time  option[value='" + info.start_time + "'] ").attr("selected", true)
+        $("#end_time  option[value='" + info.end_time + "'] ").attr("selected", true)
+      
+    }
+    function gostatus(e) {
+        var id = e.data('id')
+        $.ajax({
+            type: 'POST',
+            url: "{php echo $this->createMobileUrl('a_courseadmin',array('op'=>'status'))}",
+            data: {
+                'id': id,
+            },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data.code == 200) {
+                    layer.open({
+                        content: data.msg,
+                        skin: 'msg',
+                        time: 2,
+                        shadeClose: false
+                    });
+                    setTimeout(function () {
+                        window.location.href = "{php echo $this->createMobileUrl('a_courseadmin')}";
+                    }, 2000)
+                } else {
+                    layer.open({
+                        content: data.msg,
+                        skin: 'msg',
+                        time: 2,
+                        shadeClose: false
+                    });
+                }
+            },
+        });
+    }
+
+    $('#Date').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        maxViewMode: 2,
+        language: "zh-CN",
+        autoclose: true,
+        todayHighlight: true,
+    });
+    $(document).ready(function () {
+        $("#a_courseadmin").addClass('active');
+    });
+</script>
+{template 'admin/footer'}

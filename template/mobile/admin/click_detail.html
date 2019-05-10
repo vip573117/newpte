@@ -1,0 +1,61 @@
+{template 'admin/header'}
+{template 'admin/slide'}
+<!-- 内容 -->
+<div class="container-wrap">
+    <div class="container-panel editor">
+        <div class="container-fluid">
+            <div class="row" style="  width: 100px;">
+                <a href="{php echo $this->createMobileUrl('a_clickadmin', array('page'=>$old_page))}">
+                    <div class="col-md-5 btn-wrap" style="  width: 500px;">
+                        <div><span style="  width: 100px;">返回</span></div>
+                    </div>
+                </a>
+                <!-- <div class="col-md-2 btn-wrap">
+                        <img src="/addons/maixun_pte/template/mobile/img/ban.png" alt="">
+                        <span>禁止</span>
+                    </div>
+                    <div class="col-md-2 btn-wrap">
+                        <img src="/addons/maixun_pte/template/mobile/img/finish.png" alt="">
+                        <span>启用</span>
+                    </div> -->
+            </div>
+        </div>
+    </div>
+    <div class="container-panel record">
+        <div class="container-fluid">
+            <div class="row chart-item">
+                <div class="col-md-2">姓名</div>
+                <div class="col-md-2">学号</div>
+                <div class="col-md-2">科目</div>
+                <div class="col-md-2">打卡时间</div>
+                <div class="col-md-2">星期几</div>
+                <div class="col-md-2">状态</div>
+            </div>
+            {loop $click_list $item}
+            <div class="row chart-item">
+                <div class="col-md-2">{$item['student_name']}</div>
+                <div class="col-md-2">{$item['student_num']}</div>
+                <div class="col-md-2">{$item['subject_name']}</div>
+                <div class="col-md-2">{$item['time']}</div>
+                <div class="col-md-2">{php echo $weeklist_fan[$item['week']]}</div>
+                <div class="col-md-2">{$item['status']}</div>
+            </div>
+            {/loop}
+        </div>
+    </div>
+    {$pager}
+    <!-- <ul class="pagination">
+        <li class="page-item"><a class="page-link page-pull" href="#">上一页</a></li>
+        <li class="page-item active"><a class="page-link page-num" href="#">1</a></li>
+        <li class="page-item"><a class="page-num page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link page-num" href="#">3</a></li>
+        <li class="page-item"><a class="page-link page-pull page-ban" href="#">下一页</a></li>
+    </ul> -->
+</div>
+<script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#a_clickadmin").addClass('active');
+    });
+</script>
+{template 'admin/footer'}

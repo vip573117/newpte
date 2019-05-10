@@ -1,0 +1,51 @@
+{template 'admin/header'}
+{template 'admin/slide'}
+<!-- 内容 -->
+<div class="container-wrap">
+    <div class="container-panel">
+        <div class="container-fluid" style="padding-bottom:2rem;">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="item-bg bg-1">
+                        <div>
+                            <span>{$infolist[0]['title']}</span>
+                            <h2 class="display-4">{$infolist[0]['num']}</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="item-bg bg-2">
+                        <div>
+                            <span>{$infolist[1]['title']}</span>
+                            <h2 class="display-4">{$infolist[1]['num']}</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="item-bg bg-3">
+                        <div>
+                            <span>{$infolist[2]['title']}</span>
+                            <h2 class="display-4">{$infolist[2]['num']}</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="item-bg bg-4">
+                        <div>
+                            <span>{$infolist[3]['title']}</span>
+                            <h2 class="display-4">{$infolist[3]['num']}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#a_index").addClass('active');
+    });
+
+</script>
+{template 'admin/footer'}

@@ -1,0 +1,262 @@
+{template 'admin/header'}
+{template 'admin/slide'}
+
+
+<div class="modal fade popup-pd" id="myModal2">
+    <div class="modal-dialog popup-wid">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title" style="margin:0 auto;">请假类型管理</h4>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <form action="">
+                    <input type="hidden" name="id" value="{$leavetype['id']}">
+                    <div class="form-group clearfix">
+                        <label for="tel">集合:</label>
+                        <textarea type="text" class="form-control" id="leavetype" name="leavetype"
+                            placeholder="请输入所有考勤类型（逗号隔开）">{$leavetype['content_ys']}</textarea>
+
+                    </div>
+                    <div class="form-group clearfix" style="text-align: center;color:#4b4949">
+                        <span style="color:#4b4949;margin-left:30px ">列入：迟到,堵车,生病(请用同一种逗号)</span>
+                    </div>
+                </form>
+            </div>
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <div class="btn-group1">
+                    <button type="button" class="btn btn-secondary my-btn5 blue" data-dismiss="modal"
+                        onclick="submit2()" style="margin-right:10%;">确定</button>
+                    <button type="button" class="btn btn-secondary my-btn5 red" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 模态框 -->
+<div class="modal fade popup-pd" id="myModal1">
+    <div class="modal-dialog popup-wid">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title" style="margin:0 auto;">请假详情</h4>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <input type="hidden" name="id" value="">
+                <div class="form-group clearfix">
+                    <label for="name">请假类型:</label>
+                    <input type="text" class="form-control" readonly="readonly" name="leave_type">
+                </div>
+                <div class="form-group clearfix">
+                    <label for="name">开始时间:</label>
+                    <input type="text" class="form-control" readonly="readonly" name="start_time">
+                </div>
+                <div class="form-group clearfix">
+                    <label for="name">结束时间:</label>
+                    <input type="text" class="form-control" readonly="readonly" name="end_time">
+                </div>
+                <div class="form-group clearfix">
+                    <label for="name">请假时长:</label>
+                    <input type="text" class="form-control" readonly="readonly" name="leave_day">
+                </div>
+                <div class="form-group clearfix">
+                    <label for="name">请假事由:</label>
+                    <textarea type="text" id="leave_content" readonly="readonly" class="form-control"></textarea>
+                </div>
+                <div class="form-group clearfix">
+                    <label for="name">说明附件:</label>
+                    <img id="leave_file" style="width: 150px;height: 150px;" src="" />
+                </div>
+            </div>
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <div class="btn-group1">
+                    <!-- <button type="button" class="btn btn-secondary my-btn5 blue" data-dismiss="modal"
+                        style="margin-right:10%;">确定</button> -->
+                    <button type="button" class="btn btn-secondary my-btn5 red" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 内容 -->
+<div class="container-wrap">
+    <div class="container-panel editor">
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-md-2 btn-wrap" {if $sign_type=='display' }style="background-color: #6bccc9" {/if}> <img
+                    src="/addons/maixun_pte/template/mobile/img/add.png" alt="" data-toggle="modal"
+                    data-target="#myModal1">
+                    <a
+                        href="{php echo $this->createMobileUrl('a_leaveadmin',array('sign_type'=>'display'))}"><span>待审核</span></a>
+                </div>
+
+                <div class="col-md-2 btn-wrap" {if $sign_type=='adopt' }style="background-color: #6bccc9" {/if}> <img
+                    src="/addons/maixun_pte/template/mobile/img/finish.png" alt="">
+                    <a
+                        href="{php echo $this->createMobileUrl('a_leaveadmin',array('sign_type'=>'adopt'))}"><span>已通过</span></a>
+                </div>
+
+                <div class="col-md-2 btn-wrap" {if $sign_type=='reject' }style="background-color: #6bccc9" {/if}> <img
+                    src="/addons/maixun_pte/template/mobile/img/ban.png" alt="">
+                    <a
+                        href="{php echo $this->createMobileUrl('a_leaveadmin',array('sign_type'=>'reject'))}"><span>已驳回</span></a>
+                </div>
+                <div class="col-md-2 btn-wrap" data-toggle="modal" data-target="#myModal2">
+                    <img src="/addons/maixun_pte/template/mobile/img/add.png" alt="">
+                    <span>请假类型管理</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-panel record">
+        <div class="container-fluid">
+            <div class="row chart-item">
+                <div class="col-md-2">类型</div>
+                <div class="col-md-2">原因</div>
+                <div class="col-md-2">开始时间</div>
+                <div class="col-md-2">结束时间</div>
+                <div class="col-md-2">状态</div>
+                <div class="col-md-2">操作</div>
+            </div>
+            {loop $leavelist $item}
+            <div class="row chart-item">
+                <div class="col-md-2">{$item['leave_type']}</div>
+                <div class="col-md-2">{$item['leave_content']}</div>
+                <div class="col-md-2">{php echo date('Y-m-d H:i',$item['start_time'])}</div>
+                <div class="col-md-2">{php echo date('Y-m-d H:i',$item['end_time'])}</div>
+                <div class="col-md-2">{php echo $item['status'] == '0'?'待审核':($item['status'] == '1'?'已审核':'驳回')}</div>
+                <div class="col-md-2">
+                    <button class="btn my-btn1 blue" data-data='{php echo json_encode($item)}' data-toggle="modal"
+                        data-target="#myModal1" data-start_time="{php echo date('Y-m-d H:s',$item['start_time'])}"
+                        data-end_time="{php echo date('Y-m-d H:i',$item['end_time'])}"
+                        onclick=edit($(this))>查看详情</button>
+                    <button class="btn my-btn1 green" data-id="{$item['id']}" data-type="adopt"
+                        onclick="gostatus($(this))">通过</button>
+                    <button class="btn my-btn1 red" data-id="{$item['id']}" data-type="reject"
+                        onclick="gostatus($(this))">驳回</button>
+                </div>
+            </div>
+            {/loop}
+        </div>
+    </div>
+    {$pager}
+    <!-- <ul class="pagination">
+        <li class="page-item"><a class="page-link page-pull" href="#">上一页</a></li>
+        <li class="page-item active"><a class="page-link page-num" href="#">1</a></li>
+        <li class="page-item"><a class="page-num page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link page-num" href="#">3</a></li>
+        <li class="page-item"><a class="page-link page-pull page-ban" href="#">下一页</a></li>
+    </ul> -->
+</div>
+<script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+    
+function submit2() {
+        var id = $("input[ name='id' ] ").val()
+        var leavetype = $("#leavetype").val()
+        //alert(id + '  ' + signtype);
+        $.ajax({
+            type: 'POST',
+            url: "{php echo $this->createMobileUrl('a_leaveadmin',array('op'=>'add'))}",
+            data: {
+                'id': id,
+                'leavetype': leavetype,
+            },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data.code == 200) {
+                    layer.open({
+                        content: data.msg,
+                        skin: 'msg',
+                        time: 2,
+                        shadeClose: false
+                    });
+                    $("input[ name='id' ] ").attr("value", '');
+                    $("#leavetype").attr("value", '');
+                    setTimeout(function () {
+                        window.location.href =
+                            "{php echo $this->createMobileUrl('a_leaveadmin',array('page'=>$page))}";
+                    }, 2000)
+                } else {
+                    layer.open({
+                        content: data.msg,
+                        skin: 'msg',
+                        time: 2,
+                        shadeClose: false
+                    });
+                    $("input[ name='id' ] ").attr("value", '');
+                    $("#leavetype").attr("value", '');
+                }
+            },
+        });
+    }
+
+
+    function edit(e) {
+        console.log(e.data('data'));
+        var info = (e.data('data'));
+        $("input[ name='leave_type'] ").attr("value", info.leave_type);
+        $("input[ name='start_time'] ").attr("value", e.data('start_time'));
+        $("input[ name='end_time'] ").attr("value", e.data('end_time'));
+        $("input[ name='leave_day'] ").attr("value", info.leave_day+'天');
+        $("#leave_content").val(info.leave_content);
+        $("#leave_file").attr("src", info.leave_file);
+        // var checkboxlist = JSON.parse(info.subjectlist);
+        // if (checkboxlist) {
+        //     $("input[ name='checkbox' ] ").prop("checked", false);
+        //     for (k in checkboxlist) {
+        //         $('#check' + checkboxlist[k]).prop("checked", true);
+        //     }
+        // } else {
+        //     $("input[ name='checkbox' ] ").prop("checked", false);
+        // }
+    }
+
+    function newadd() {
+        $("input[ name='id' ] ").attr("value", "");
+        $("input[ name='name' ] ").attr("value", "");
+        $("input[ name='tel' ] ").attr("value", "");
+        $("input[ name='email' ] ").attr("value", "");
+        $("input[ name='userid' ] ").attr("value", "");
+    }
+
+    function gostatus(e) {
+        var id = e.data('id')
+        var type = e.data('type')
+        $.ajax({
+            type: 'POST',
+            url: "{php echo $this->createMobileUrl('a_leaveadmin',array('op'=>'status'))}",
+            data: {
+                'id': id,
+                'type': type,
+            },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data.code == 200) {
+                    layer.open({
+                        content: data.msg,
+                        skin: 'msg',
+                        time: 2,
+                        shadeClose: false
+                    });
+                    setTimeout(function () {
+                        window.location.href = "{php echo $this->createMobileUrl('a_leaveadmin')}";
+                    }, 2000)
+
+                }
+            },
+        });
+    }
+    $(document).ready(function () {
+        $("#a_leaveadmin").addClass('active');
+    });
+</script>
+{template 'admin/footer'}

@@ -1,0 +1,54 @@
+/* 盒子尺寸重置 */
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+/* 清除浮动 */
+.clearfix::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+/* 浮动 */
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+/* 截断文本 */
+.truncate-text {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+/* 多行截断文本 */
+.truncate-multext {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+/* 去除input样式 */
+
+/* input,
+button {
+  background: none;
+  outline: none;
+  border: 0px;
+  padding-left: 4px;
+} */
+

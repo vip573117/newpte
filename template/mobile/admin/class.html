@@ -1,0 +1,196 @@
+﻿{template 'admin/header'}
+{template 'admin/slide'}
+<!-- 模态框 -->
+<div class="modal fade popup-pd" id="myModal1">
+        <div class="modal-dialog popup-wid">
+            <div class="modal-content">
+                <!-- 模态框头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title" style="margin:0 auto;">新增班级</h4>
+                </div>
+                <!-- 模态框主体 -->
+                <div class="modal-body">
+                    <form action="">
+                        <input type="hidden" name="id" value="">
+                        <div class="form-group clearfix">
+                            <label for="names">学校:</label>
+                            <select class="form-control" name="selectschool" id="names">
+                                {loop $schoollist $vo}
+                                <option value="{$vo['id']}">{$vo['title']}</option>
+                                {/loop}
+                            </select>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label for="name">名字:</label>
+                            <input type="text" class="form-control" name="name" placeholder="输入班级名称">
+                        </div>  
+                    </form>
+                </div>
+                <!-- 模态框底部 -->
+                <div class="modal-footer">
+                    <div class="btn-group1">
+                        <button type="button" class="btn btn-secondary my-btn5 blue" data-dismiss="modal" onclick="submit1()"
+                            style="margin-right:10%;">确定</button>
+                        <button type="button" class="btn btn-secondary my-btn5 red" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- 内容 -->
+<div class="container-wrap">
+    <div class="container-panel editor">
+        <div class="container-fluid">
+            <div class="row">
+                <div  onclick="newadd()" class="col-md-2 btn-wrap">
+                    <img src="/addons/maixun_pte/template/mobile/img/add.png" alt=""  data-toggle="modal" data-target="#myModal1">
+                    <span>新增</span>
+                </div>
+                <!-- <div class="col-md-2 btn-wrap">
+                        <img src="/addons/maixun_pte/template/mobile/img/ban.png" alt="">
+                        <span>禁止</span>
+                    </div>
+                    <div class="col-md-2 btn-wrap">
+                        <img src="/addons/maixun_pte/template/mobile/img/finish.png" alt="">
+                        <span>启用</span>
+                    </div> -->
+            </div>
+        </div>
+    </div>
+    <div class="container-panel record">
+        <div class="container-fluid">
+            <div class="row chart-item">
+                <div class="col-md-2">名称</div>
+                <div class="col-md-2">校区</div>
+                <div class="col-md-2">状态</div>
+                <div class="col-md-6">操作</div>
+            </div>
+            {loop $classlist $item}
+            <div class="row chart-item">
+                <div class="col-md-2">{$item['title']}</div>
+                <div class="col-md-2">{$item['schoolname']}</div>
+                <div class="col-md-2">{php echo $item['status']== 1?'启用':'禁用'}</div>
+                <div class="col-md-6">
+                    <button class="btn my-btn1 blue" data-id="{$item['id']}" data-type="{$item['status']}" data-typeid="1"
+                        onclick="gostatus($(this))">启用</button>
+                    <a href="{php echo $this->createMobileUrl('a_student', array('id'=>$item['id']))}">
+                        <button class="btn my-btn1 blue">学生</button></a>
+                    <button class="btn my-btn1 green" data-toggle="modal" data-target="#myModal1" onclick='edit({php echo json_encode($item);})'>编辑</button>
+                    <button class="btn my-btn1 red" data-id="{$item['id']}" data-type="{$item['status']}" data-typeid="0"
+                        onclick="gostatus($(this))">禁用</button>
+                </div>
+            </div>
+            {/loop}
+        </div>
+    </div>
+    {$pager}
+    <!-- <ul class="pagination">
+        <li class="page-item"><a class="page-link page-pull" href="#">上一页</a></li>
+        <li class="page-item active"><a class="page-link page-num" href="#">1</a></li>
+        <li class="page-item"><a class="page-num page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link page-num" href="#">3</a></li>
+        <li class="page-item"><a class="page-link page-pull page-ban" href="#">下一页</a></li>
+    </ul> -->
+</div>
+<script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+    function submit1() {
+        var schoolid = $("#names").val();
+        var id = $("input[ name='id' ] ").val()
+        var name = $(" input[ name='name' ] ").val()
+     
+        $.ajax({
+            type: 'POST',
+            url: "{php echo $this->createMobileUrl('a_class',array('op'=>'add'))}",
+            data: { 'schoolid': schoolid, 'id': id, 'name': name},
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data.code == 200) {
+                    layer.open({
+                        content: data.msg
+                        , skin: 'msg'
+                        , time: 2
+                        , shadeClose: false
+                    });
+                    $("input[ name='id' ] ").attr("value", '');
+                    $("input[ name='name' ] ").attr("value", '');
+                    setTimeout(function () { 
+                        window.location.href = "{php echo $this->createMobileUrl('a_class')}";
+                    }, 2000)
+                }else{
+                    layer.open({
+                        content: data.msg
+                        , skin: 'msg'
+                        , time: 2
+                        , shadeClose: false
+                    });
+                    $("input[ name='id' ] ").attr("value", '');
+                    $("input[ name='name' ] ").attr("value", '');
+                }
+            },
+        });
+    }
+
+    function edit(e) {
+        var info = e
+        $("#names  option[value=" + info.schoolid + "] ").attr("selected", true)
+        $("input[ name='id' ] ").attr("value", info.id);
+        $("input[ name='name' ] ").attr("value", info.title);
+
+    }
+    function newadd(){
+        $("#names  option ").attr("selected", false)
+        $("input[ name='id' ] ").attr("value", "");
+        $("input[ name='name' ] ").attr("value", "");
+    }
+    function gostatus(e) {
+        var id = e.data('id')
+        var type = e.data('type')
+        var typeid = e.data('typeid')
+        //alert('id：' + id + "  type:" + type + "  typeid" + typeid);
+        if (type == 1 && typeid == 1) {
+            layer.open({
+                content: "启用中"
+                , skin: 'msg'
+                , time: 2
+                , shadeClose: false
+            });
+            return false;
+        }
+        if (type == 0 && typeid == 0) {
+            layer.open({
+                content: "禁用中"
+                , skin: 'msg'
+                , time: 2
+                , shadeClose: false
+            });
+            return false;
+        }
+        $.ajax({
+            type: 'POST',
+            url: "{php echo $this->createMobileUrl('a_class',array('op'=>'status'))}",
+            data: { 'id': id, 'type': type, 'typeid': typeid },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data.code == 200) {
+                    layer.open({
+                        content: data.msg
+                        , skin: 'msg'
+                        , time: 2
+                        , shadeClose: false
+                    });
+                    setTimeout(function () {
+                        window.location.href = "{php echo $this->createMobileUrl('a_class')}";
+                    }, 2000)
+
+                }
+            },
+        });
+    }
+    $(document).ready(function () {
+        $("#a_class").addClass('active');
+    });
+</script>
+{template 'admin/footer'}
