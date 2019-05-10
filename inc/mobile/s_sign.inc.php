@@ -22,7 +22,7 @@ if ($operation == 'display') {
     
     $course = pdo_fetchall("SELECT * FROM " . tablename('pte_course') . " WHERE id in " . str_replace('[', '(', (str_replace(']', ')', 
     $student['subjectlist']))));
-    var_dump($course);die();
+    //var_dump($course);die();
     //查询当前时间 开课前应该上多少课
     $end_time = time();
     $hs = date('H:i:s');

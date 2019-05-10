@@ -26,6 +26,7 @@ if ($operation == 'display') {
     include $this->template('admin/course');
 }
 if ($operation == 'status') {
+
     $id = $_GPC['id'];
     if (empty($id)) {
         $this->my_message(202, '', 'id不存在');
@@ -40,6 +41,7 @@ if ($operation == 'status') {
         $this->my_message(202, '', '删除失败');
     }
 }if ($operation == 'add') {
+
     if ($_W['isajax'] && $_W['ispost']) {
         $weeklist = array('一'=>1, '二'=>2, '三'=>3, '四'=>4, '五'=>5, '六'=>6, '日'=>7);
         $id = $_GPC['id'];
@@ -60,6 +62,11 @@ if ($operation == 'status') {
         if (empty($end_time)) {
             $this->my_message(202, '', '请选择结束时间');
         }
+        $start_xqtime = explode(":",$start_time);
+        $start_xq =  ($start_xqtime[0]*60)+$start_xqtime[1];
+        $end_xqtime = explode(":",$end_time);
+        $end_xq =  ($end_xqtime[0]*60)+$end_xqtime[1];
+        $course_num = intval(($end_xq-$start_xq)/40);
         if (empty($id)) {
             $inset_data = array(
                 'subject_id' => $subject_id,
@@ -68,10 +75,12 @@ if ($operation == 'status') {
                 'week' => $week,
                 'start_time' => $start_time,
                 'end_time' => $end_time,
+                'course_num' => $course_num,
                 'createtime' => time(),
             );
             pdo_insert('pte_course', $inset_data);
             $uid = pdo_insertid();
+   
             if ($uid) {
                 $this->my_message(200, '', '添加成功');
             } else {
@@ -86,6 +95,7 @@ if ($operation == 'status') {
                 'week_num' => $weeklist[$week],
                 'start_time' => $start_time,
                 'end_time' => $end_time,
+                'course_num' => $course_num,
                 'createtime' => time(),
             );
             $result =  pdo_update('pte_course', $update_data,['id'=>$id]);

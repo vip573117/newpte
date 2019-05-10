@@ -185,7 +185,7 @@
             <div class="cell"></div>
             <div class="cell hour2 cd">
               <div>PTE-A</div>
-              <div>国交院211</div>
+              <div>国交院211</div>intval()
             </div>
             <div class="cell"></div>
             <div class="cell"></div> -->
@@ -193,12 +193,18 @@
           <!-- 周四 -->
           <div class="colo">
             <div class="cell">周四</div>
-            {loop $kscjlist  $time}
-            {if $course}
-            {else}
-            <div class="cell"></div>
-            {/if}
-           
+            {loop $kscjlist $index $time}
+              {if $course}
+                  {loop $course $vo}
+                      {if $vo['week_num']==4}
+                      {php echo strtotime($vo['start_time'])}
+                          {php echo $middle_time = }
+                      <div class="cell">{php echo count($course)}</div>
+                      {/if}
+                  {/loop}
+              {else}
+              <div class="cell"></div>
+              {/if}
             {/loop}
             <!-- <div class="cell"></div>
             <div class="cell"></div>
