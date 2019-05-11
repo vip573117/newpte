@@ -132,9 +132,24 @@
           <!-- 周一 -->
           <div class="colo">
             <div class="cell">周一</div>
-            {loop $kscjlist  $time}
-            <div class="cell"></div>
-            {/loop}
+            {loop $kscjlist $index $time}
+            {php $sta=0}
+            {php $c_num=0}
+              {loop $course $in $vo}
+                  {if $vo['week_num']==1}
+                    {if $vo['start_time']==$time['start']}
+                    <div class="cell cd hour{php echo $vo['course_num']}">{php echo $vo['subject_name']}</div>
+                    {php $sta=1}
+                    {php $c_num +=$vo['course_num']-1}
+                    {/if}
+                  {/if}
+              {/loop}
+            {if $sta==0}
+               {if $index < count($kscjlist)-$c_num-1}
+              <div class="cell"></div>
+              {/if}
+            {/if}
+        {/loop}
             <!-- <div class="cell hour2 cq">
               <div>PTE-A</div>
               <div>国交院211</div>
@@ -153,9 +168,24 @@
           <!-- 周二 -->
           <div class="colo">
             <div class="cell">周二</div>
-            {loop $kscjlist  $time}
-            <div class="cell"></div>
-            {/loop}
+            {loop $kscjlist $index $time}
+            {php $sta=0}
+            {php $c_num=0}
+              {loop $course $in $vo}
+                  {if $vo['week_num']==2}
+                    {if $vo['start_time']==$time['start']}
+                    <div class="cell cd hour{php echo $vo['course_num']}">{php echo $vo['subject_name']}</div>
+                    {php $sta=1}
+                    {php $c_num +=$vo['course_num']-1}
+                    {/if}
+                  {/if}
+              {/loop}
+            {if $sta==0}
+               {if $index < count($kscjlist)-$c_num-1}
+              <div class="cell"></div>
+              {/if}
+            {/if}
+        {/loop}
             <!-- <div class="cell"></div>
             <div class="cell hour3 qj">
               <div>PTE-A</div>
@@ -173,9 +203,24 @@
           <!-- 周三 -->
           <div class="colo">
             <div class="cell">周三</div>
-            {loop $kscjlist  $time}
-            <div class="cell"></div>
-            {/loop}
+            {loop $kscjlist $index $time}
+            {php $sta=0}
+            {php $c_num=0}
+              {loop $course $in $vo}
+                  {if $vo['week_num']==3}
+                    {if $vo['start_time']==$time['start']}
+                    <div class="cell cd hour{php echo $vo['course_num']}">{php echo $vo['subject_name']}</div>
+                    {php $sta=1}
+                    {php $c_num +=$vo['course_num']-1}
+                    {/if}
+                  {/if}
+              {/loop}
+            {if $sta==0}
+               {if $index < count($kscjlist)-$c_num-1}
+              <div class="cell"></div>
+              {/if}
+            {/if}
+        {/loop}
             <!-- <div class="cell"></div>
             <div class="cell"></div>
             <div class="cell"></div> -->
@@ -194,17 +239,22 @@
           <div class="colo">
             <div class="cell">周四</div>
             {loop $kscjlist $index $time}
-              {if $course}
-                  {loop $course $vo}
+                {php $sta=0}
+                {php $c_num=0}
+                  {loop $course $in $vo}
                       {if $vo['week_num']==4}
-                      {php echo strtotime($vo['start_time'])}
-                          {php echo $middle_time = }
-                      <div class="cell">{php echo count($course)}</div>
+                        {if $vo['start_time']==$time['start']}
+                        <div class="cell cd hour{php echo $vo['course_num']}">{php echo $vo['subject_name']}</div>
+                        {php $sta=1}
+                        {php $c_num +=$vo['course_num']-1}
+                        {/if}
                       {/if}
                   {/loop}
-              {else}
-              <div class="cell"></div>
-              {/if}
+                {if $sta==0}
+                   {if $index < count($kscjlist)-$c_num-1}
+                  <div class="cell"></div>
+                  {/if}
+                {/if}
             {/loop}
             <!-- <div class="cell"></div>
             <div class="cell"></div>
@@ -220,9 +270,24 @@
           <!-- 周五 -->
           <div class="colo">
             <div class="cell">周五</div>
-            {loop $kscjlist  $time}
-            <div class="cell"></div>
-            {/loop}
+            {loop $kscjlist $index $time}
+            {php $sta=0}
+            {php $c_num=0}
+              {loop $course $in $vo}
+                  {if $vo['week_num']==5}
+                    {if $vo['start_time']==$time['start']}
+                    <div class="cell cd hour{php echo $vo['course_num']}">{php echo $vo['subject_name']}</div>
+                    {php $sta=1}
+                    {php $c_num +=$vo['course_num']-1}
+                    {/if}
+                  {/if}
+              {/loop}
+            {if $sta==0}
+               {if $index < count($kscjlist)-$c_num-1}
+              <div class="cell"></div>
+              {/if}
+            {/if}
+        {/loop}
             <!-- <div class="cell"></div>
             <div class="cell"></div>
             <div class="cell"></div>

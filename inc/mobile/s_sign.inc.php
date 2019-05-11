@@ -63,6 +63,7 @@ if ($operation == 'display') {
     $obj['leave_num'] = $leave_num;
     $obj['sign_num'] = $sign_num;
     $obj['click_percent'] = round( $click_num/$click_tot_num * 100 , 2);
+   // var_dump($obj);die();
     include $this->template('wx/index');
 }if ($operation == 'click_list') {
     $openid = $_W['openid'];
