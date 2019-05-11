@@ -174,7 +174,7 @@
               {loop $course $in $vo}
                   {if $vo['week_num']==2}
                     {if $vo['start_time']==$time['start']}
-                    <div class="cell cd hour{php echo $vo['course_num']}">{php echo $vo['subject_name']}</div>
+                    <div class="cell {php echo $vo['xs_status']=='旷课'?'kk':'qd'} hour{php echo $vo['course_num']}">{php echo $vo['subject_name']}</div>
                     {php $sta=1}
                     {php $c_num +=$vo['course_num']-1}
                     {/if}
@@ -276,7 +276,7 @@
               {loop $course $in $vo}
                   {if $vo['week_num']==5}
                     {if $vo['start_time']==$time['start']}
-                    <div class="cell cd hour{php echo $vo['course_num']}">{php echo $vo['subject_name']}</div>
+                    <div class="cell {php echo $vo['xs_status']=='旷课'?'qq':'qd'} hour{php echo $vo['course_num']}">{php echo $vo['subject_name']}</div>
                     {php $sta=1}
                     {php $c_num +=$vo['course_num']-1}
                     {/if}

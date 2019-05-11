@@ -34,12 +34,32 @@ if ($operation == 'display') {
     $leave_num =  pdo_fetchcolumn("SELECT count(1) FROM " . tablename('pte_leave') . " WHERE student_openid='" . $openid . "' and end_time>".$start_time);
     $sign_num =  pdo_fetchcolumn("SELECT count(1) FROM " . tablename('pte_upsign') . " WHERE student_openid='" . $openid . "' and sign_time>".$start_time);
     for ($start = $start_time; $start <= $end_time + 3600; $start += 24 * 3600) {
-        foreach ($course as $cou) {
+        foreach ($course as $k => $cou) {
             if ($cou['week_num'] == date('w', $start)) {
                 $click_tot_num++;
                 $rourse_click = pdo_fetch("SELECT * FROM " . tablename('pte_click') . "
                      WHERE subject_id=" . $cou['subject_id'] . " and week=" . $cou['week_num'] . " and student_id=" . $student['id'] . " and course_date='" . date('Y-m-d', $start)."'");
                 if ($rourse_click) {
+                    $week_js = (abs(date('w', time())-$cou['week_num']))*86400;
+                    $xh_time =strtotime(date('Y-m-d',$start));
+                    $dq_time =strtotime(date('Y-m-d',time()));
+                    if(($dq_time- $xh_time)<= $week_js){
+                        if ($rourse_click['status'] == '签到') {
+                            $course[$k]['xs_status'] = '签到';
+                        }
+                        if ($rourse_click['status'] == '补卡') {
+                            $course[$k]['xs_status'] = '补卡';
+                        }
+                        if ($rourse_click['status'] == '请假') {
+                            $course[$k]['xs_status'] = '请假';
+                        }
+                        if ($rourse_click['status'] == '迟到') {
+                            $course[$k]['xs_status'] = '迟到';
+                        }
+                        if ($rourse_click['status'] == '旷课') {
+                            $course[$k]['xs_status'] = '旷课';
+                        }
+                    }
                     if ($rourse_click['status'] == '签到' || $rourse_click['status'] == '补卡'|| $rourse_click['status'] == '请假') {
                         $click_num++; 
                     }
@@ -55,6 +75,7 @@ if ($operation == 'display') {
             }
         } 
     }
+
     $obj =array();
     $obj['click_tot_num'] = $click_tot_num;
     $obj['click_num'] = $click_num;
